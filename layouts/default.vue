@@ -1,0 +1,40 @@
+<template>
+  <div>
+    <v-app>
+      <Navbar/>
+      <nuxt></nuxt>
+    </v-app>
+  </div>
+</template>
+
+<script>
+import Navbar from "../components/core/Navbar.vue";
+
+export default {
+  name: "App",
+  components: {
+    Navbar
+  },
+  computed: {}
+};
+</script>
+
+<style lang="scss" >
+
+
+
+
+.v-application {
+    font-family: "Quicksand", sans-serif;
+  }
+
+
+  .v-toolbar__title {
+    text-align: left;
+    width: 100%;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 0 0 !important;
+  }
+  
+</style>
