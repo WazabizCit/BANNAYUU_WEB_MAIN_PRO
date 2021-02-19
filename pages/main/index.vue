@@ -22,8 +22,7 @@
                 elevation="2"
                 large
                 outlined
-                width="100px"
-                @click="next_sys_booking"
+                width="100px"               
               >เลือก</v-btn>
             </v-card-actions>
           </v-card>
@@ -49,8 +48,7 @@
                 elevation="2"
                 large
                 outlined
-                width="100px"
-                @click="next_sys_member"
+                width="100px"              
               >เลือก</v-btn>
             </v-card-actions>
           </v-card>
@@ -76,8 +74,7 @@
                 elevation="2"
                 large
                 outlined
-                width="100px"
-                @click="next_sys_help"
+                width="100px"               
               >เลือก</v-btn>
             </v-card-actions>
           </v-card>
@@ -89,18 +86,9 @@
 
 <script>
 export default {
-  data: () => ({}),
-  middleware: "auth",
+  data: () => ({}), 
   methods: {
-    next_sys_help() {
-      this.$router.push("/help");
-    },
-    next_sys_booking() {
-      this.$router.push("/sys_booking");
-    },
-    next_sys_member() {
-      this.$router.push("/sys_member");
-    }
+   
   }
 };
 </script>

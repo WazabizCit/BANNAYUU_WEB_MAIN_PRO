@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-app>
-      <Navbar/>
+     <Navbar v-if="this.$nuxt.$auth.loggedIn" />
       <nuxt></nuxt>
     </v-app>
   </div>

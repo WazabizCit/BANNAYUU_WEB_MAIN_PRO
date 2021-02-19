@@ -10,9 +10,9 @@ export default {
     host: '0.0.0.0' // default: localhost
   },
   router: {
-    extendRoutes (routes, resolve) {
+    extendRoutes(routes, resolve) {
       routes.push({
-        name: 'mainweb',
+        name: 'main',
         path: '*',
         component: resolve(__dirname, 'pages/main/index.vue')
       })
@@ -36,13 +36,17 @@ export default {
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' },
       { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css' }
+    ],
+    script: [
+      { src: 'https://static.line-scdn.net/liff/edge/2/sdk.js' }
     ]
   },
+  loading: '~/components/loading.vue',
   loadingIndicator: {
-   name: 'rectangle-bounce',
-   color: '#005ecb',
-   background: 'white'
- },
+    name: 'rectangle-bounce',
+    color: '#005ecb',
+    background: 'white'
+  },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
@@ -67,15 +71,21 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+
+    baseURL:"https://9b46b7b45f9b.jp.ngrok.io/" 
+    //baseURL: "http://127.0.0.1:8504/"
+
+  },
 
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables: ['~/assets/variables.scss'],
+    customVariables:['~/assets/variables.scss'],
     theme: {
       dark: true,
       themes: {
@@ -95,25 +105,26 @@ export default {
     customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: false,
-      themes: {       
+      themes: {
         light: {
-          primary: '#2e7d32',
+          primary: '#bf5f82',
           accent: colors.grey.darken3,
           secondary: '#aeea00',
           info: colors.teal.lighten1,
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
-          success:  '#2e7d32',
-          red:  colors.deepOrange.accent4,
-          white:  '#ffffff',
-          orange:'#ef6c00',
-          card_success:'#00b400',
-          card_blue:'#008cff',
-          card_gray:'#a7a9ac',       
-          card_teal:'#00c896',
-          card_brown:"#6a4f4b",
-          navigation_menu:'#4caf50'
-    
+          success: '#2e7d32',
+          red: colors.deepOrange.accent4,
+          white: '#ffffff',
+          black: '#000000',
+          orange: '#ef6c00',
+          card_success: '#00b400',
+          card_blue: '#008cff',
+          card_gray: '#a7a9ac',
+          card_teal: '#00c896',
+          card_brown: "#6a4f4b",
+          navigation_menu: '#4caf50'
+
         }
       }
     }

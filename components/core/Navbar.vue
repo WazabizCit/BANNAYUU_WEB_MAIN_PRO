@@ -1,8 +1,8 @@
 <template>
   <div>
-    <v-toolbar color="success" dark>
+    <v-toolbar color="primary" dark>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>MRT Parking</v-toolbar-title>
+      <v-toolbar-title>BANNAYUU</v-toolbar-title>
 
       <v-spacer></v-spacer>
       <v-btn class="btn-bar" text @click="open_dialog_contact">ติดต่อเรา</v-btn>     
