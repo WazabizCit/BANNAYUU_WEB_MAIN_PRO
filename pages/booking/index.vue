@@ -20,13 +20,14 @@
                     elevation="2"
                     large
                     outlined
-                    width="100px "
+                    width="100px"
                     @click="next(item.id)"
                   >เลือก</v-btn>
                 </v-card-actions>
               </div>
+              <v-spacer></v-spacer>
 
-              <v-avatar class="ma-3" size="125" tile>
+              <v-avatar class="ma-3" size="110" tile >
                 <v-img :src="item.src"></v-img>
               </v-avatar>
               <p></p>
@@ -36,7 +37,7 @@
 
         <v-text-field class="mt-2" v-model="uuiduser" name="uuiduser" label="UUID" dense disabled></v-text-field>
 
-        <div class="mt-5 w-100 text-orange text-center my-btn" @click="close_liff">ยกเลิกรายการ</div>
+        <div class="mt-5 w-100 text-orange text-center my-btn" @click="close_liff">ยกเลิกรายการx</div>
       </v-row>
     </v-container>
   </div>
@@ -52,7 +53,7 @@ export default {
           id: 1,
           color: "#1F7087",
           src: require("@/assets/img/icons8-add-user-male-100.png"),
-          title: "ลงทะเบียนผู้มาติดต่อ"
+          title: "ลงทะเบียนผู้ติดต่อ"
         },
         {
           id: 2,
@@ -95,7 +96,7 @@ export default {
     // this.setdata_user();
     liff
       .init({
-        liffId: "1655629534-o29p867k"
+        liffId:  process.env.liffid_bookgin    
       })
       .then(() => {
         if (liff.isLoggedIn()) {

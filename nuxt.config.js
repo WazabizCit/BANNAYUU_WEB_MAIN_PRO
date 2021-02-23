@@ -72,12 +72,13 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth',
+    '@nuxtjs/dotenv'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
 
-    baseURL:"https://9b46b7b45f9b.jp.ngrok.io/" 
+    baseURL:"https://a55333850a75.jp.ngrok.io/" 
     //baseURL: "http://127.0.0.1:8504/"
 
   },

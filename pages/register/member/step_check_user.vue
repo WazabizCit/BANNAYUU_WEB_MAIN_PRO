@@ -59,13 +59,13 @@
         :txt_dialog_title="txt_dialog_title"
         @closeDialog="closeDialog"
       />
+      
     </v-container>
   </div>
 </template>
 <script>
 import Dialog_popup from "@/components/dialog_popup.vue";
 import { mapActions, mapGetters } from "vuex";
-
 
 export default {
   data() {
@@ -93,14 +93,13 @@ export default {
   },
   methods: {
     close_liff() {
-    
       liff.closeWindow();
     },
     ...mapActions({
       setRegisterMember: "register_member/setRegisterMember"
     }),
     async check_data() {
-      if (this.valid) {
+      if (this.$refs.form.validate()) {
         this.$nuxt.$loading.start();
         try {
           const response = await this.$axios.$post(
@@ -167,12 +166,12 @@ export default {
   mounted() {
     liff
       .init({
-        liffId: "1655629534-ZkwBmDYN"
+        liffId: process.env.liffid_member        
       })
       .then(() => {
-        if (liff.isLoggedIn()) {          
+        if (liff.isLoggedIn()) {
           liff.getProfile().then(profile => {
-            // this.profileImg = profile.pictureUrl;
+            //this.profileImg = profile.pictureUrl;
             this.form.uuiduser = profile.userId;
           });
         } else {

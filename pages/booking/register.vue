@@ -11,12 +11,10 @@
           </div>
         </v-col>
         <v-col cols="12">
-          <v-form ref="form">
+          <v-form ref="form" v-model="valid">
             <p class="text-center text-sub-title mb-0">กรุณากรอกรายละเอียดผู้มาติดต่อ</p>
             <div class="mt-8">
-
-                 <!-- <v-text-field class="mt-2" v-model="uuiduser" name="uuiduser" label="UUID" dense disabled></v-text-field> -->
-                 
+              <!-- <v-text-field class="mt-2" v-model="uuiduser" name="uuiduser" label="UUID" dense disabled></v-text-field> -->
               <v-text-field
                 class="mt-2"
                 v-model="visitor_name"
@@ -40,6 +38,7 @@
                 id="phonenumber"
                 dense
                 onkeypress="return event.charCode >= 48 && event.charCode <= 57"
+                :rules="phonenumberRules"
               ></v-text-field>
 
               <v-text-field
@@ -132,10 +131,11 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
+      valid: false,
       dialog_status: false,
       txt_dialog_title: "",
       txt_dialog_sub: "",
-     // uuiduser: "U2a9a887f26eb7200dd52e97a04c13d1b",
+      // uuiduser: "U2a9a887f26eb7200dd52e97a04c13d1b",
       uuiduser: this.getInfoBooking().uuiduser,
       pickerdate: new Date().toISOString().substr(0, 10),
       nowDate: new Date().toISOString().slice(0, 10),
@@ -160,42 +160,44 @@ export default {
     };
   },
   methods: {
-      ...mapGetters({
-      getInfoBooking:  "booking/getInfoBooking" 
+    ...mapGetters({
+      getInfoBooking: "booking/getInfoBooking"
     }),
     back() {
       this.$router.push("/booking");
     },
     async next() {
-      this.$nuxt.$loading.start();
-      try {
-        const response = await this.$axios.$post("booking/visitor", {
-          m_uuiduser: this.uuiduser,
-          m_tbv_license_plate: this.license_plate,
-          m_tbv_contact_person: this.visitor_name,
-          m_tbv_mobile_contact_person: this.phonenumber,
-          m_tbv_detail: this.remark,
-          m_tbv_start_datetime: `${this.pickerdate} ${this.pickertime}`
-        });
+      if (this.$refs.form.validate()) {
+        this.$nuxt.$loading.start();
+        try {
+          const response = await this.$axios.$post("booking/visitor", {
+            m_uuiduser: this.uuiduser,
+            m_tbv_license_plate: this.license_plate,
+            m_tbv_contact_person: this.visitor_name,
+            m_tbv_mobile_contact_person: this.phonenumber,
+            m_tbv_detail: this.remark,
+            m_tbv_start_datetime: `${this.pickerdate} ${this.pickertime}`
+          });
 
-        switch (response.message) {
-          case "success":
-            this.$nuxt.$loading.finish();
-            this.$router.push("/booking/reg_success");
-            break;
+          switch (response.message) {
+            case "success":
+              this.$nuxt.$loading.finish();
+              this.$router.push("/booking/reg_success");
+              break;
 
-          default:
-            this.dialog_status = true;
-            this.txt_dialog_sub = "ระบบผิดพลาด";
-            this.txt_dialog_title = "ระบบผิดพลาด";
-            this.$nuxt.$loading.finish();
-            break;
+            default:
+              this.dialog_status = true;
+              this.txt_dialog_sub = "ระบบผิดพลาด";
+              this.txt_dialog_title = "ระบบผิดพลาด";
+              this.$nuxt.$loading.finish();
+              break;
+          }
+        } catch (e) {
+          this.dialog_status = true;
+          this.txt_dialog_sub = "ระบบผิดพลาด";
+          this.txt_dialog_title = "ระบบผิดพลาด";
+          this.$nuxt.$loading.finish();
         }
-      } catch (e) {
-        this.dialog_status = true;
-        this.txt_dialog_sub = "ระบบผิดพลาด";
-        this.txt_dialog_title = "ระบบผิดพลาด";
-        this.$nuxt.$loading.finish();
       }
     },
     closeDialog(obj) {

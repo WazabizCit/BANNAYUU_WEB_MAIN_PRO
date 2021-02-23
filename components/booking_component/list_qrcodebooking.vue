@@ -38,6 +38,10 @@
         :dialog_qrcode="dialog_qrcode"
         @closeDialog="closeDialog"
       />
+
+      <v-overlay :value="overlay">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
     </v-container>
   </div>
 </template>
@@ -49,6 +53,7 @@ import { mapActions, mapGetters } from "vuex";
 
 export default {
   data: () => ({
+    overlay: false,
     uuiduser: "",
     status_show: false,
     size: 120,
@@ -62,19 +67,25 @@ export default {
       getInfoBooking: "booking/getInfoBooking"
     }),
     async requestData() {
+      this.overlay = true;
       this.$axios
         .$post("booking/history", {
           m_uuiduser: this.getInfoBooking().uuiduser
         })
-        .then(res => {       
+        .then(res => {
           if (res.data.length == 0) {
             this.status_show = true;
+            this.overlay = false;
           } else {
             this.items_qr = res.data;
             this.status_show = false;
+            this.overlay = false;
           }
         })
-        .catch((this.status_show = true))
+        .catch(error => {
+          this.status_show = true;
+          this.overlay = false;
+        })
         .finally();
     },
     closeDialog(obj) {
