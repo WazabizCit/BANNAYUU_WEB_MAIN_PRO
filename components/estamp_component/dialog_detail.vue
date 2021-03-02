@@ -26,7 +26,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="red" text @click="closeDialogdetail">ปิด</v-btn>
+            <v-btn color="error"  text @click="closeDialogdetail">ปิด</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>

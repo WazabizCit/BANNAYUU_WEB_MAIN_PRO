@@ -5,7 +5,7 @@
   <div>
     <v-container class="pt-0 pb-0">
       <v-row align="center" justify="center">
-        <div class="text-primary text-title mt-10 mb-2">Estamp ผู้มาติดต่อ</div>
+        <div class="text-primary text-title mt-5 mb-2">Estamp ผู้มาติดต่อ</div>
         <v-col v-for="item in items_list" :key="item.tbv_id" cols="12">
           <v-card class="mx-auto mt-2" max-width="364" raised>
             <v-list-item class="mb-3" three-line>
@@ -62,6 +62,7 @@
       :obj_select="obj_select"
       @closeDialogdetail="closeDialogdetail"
     />
+    
   </div>
 </template>
 
@@ -122,7 +123,7 @@ export default {
     }
   },
   mounted() {
-   // this.requestData();
+  // this.requestData();
     liff
       .init({     
          liffId: process.env.liffid_estamp

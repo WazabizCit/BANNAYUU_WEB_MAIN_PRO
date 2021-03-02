@@ -11,7 +11,7 @@
           <v-card-actions class="mt-7">
             <v-spacer></v-spacer>
             <v-btn color="success" @click="send_data_estamp">ยืนยัน</v-btn>
-            <v-btn color="red" @click="closeDialogestamp">ปิด</v-btn>
+            <v-btn color="error"  @click="closeDialogestamp">ปิด</v-btn>
             <v-spacer></v-spacer>
           </v-card-actions>
         </v-card>
@@ -40,17 +40,25 @@
     </v-dialog>
 
     <Dialog_popup
-        :dialog_status="dialog_status"
-        :txt_dialog_sub="txt_dialog_sub"
-        :txt_dialog_title="txt_dialog_title"
-        @closeDialog="closeDialog"
-      />
+      :dialog_status="dialog_status"
+      :txt_dialog_sub="txt_dialog_sub"
+      :txt_dialog_title="txt_dialog_title"
+      @closeDialog="closeDialog"
+    />
+
+    <v-dialog v-model="overlay" hide-overlay persistent width="300">
+      <v-card color="primary" dark>
+        <v-card-text>
+          กรุณารอสักครู่..
+          <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 
 <script>
-
 import Dialog_popup from "@/components/dialog_popup.vue";
 
 export default {
@@ -60,11 +68,11 @@ export default {
     uuiduser: ""
   },
   data: () => ({
+    overlay: false,
     txt_dialog_title: "",
     txt_dialog_sub: "",
     dialog_status_estamp: false,
     dialog_status: false
-
   }),
   methods: {
     closeDialog(obj) {
@@ -76,8 +84,8 @@ export default {
         status_dialog_estamp: (this.status_dialog_estamp = false)
       });
     },
-    async send_data_estamp() {      
-      this.closeDialogestamp();
+    async send_data_estamp() {
+      this.overlay = true;
       try {
         const response = await this.$axios.$post("actionestamp/setestamp", {
           m_uuiduser: this.uuiduser,
@@ -86,11 +94,14 @@ export default {
 
         switch (response.message) {
           case "success":
+            this.closeDialogestamp();
             this.dialog_status_estamp = true;
+            this.overlay = false;
 
             break;
           case "notsuccess":
             this.dialog_status = true;
+            this.overlay = false;
             this.txt_dialog_title = "แจ้งเตือน";
             this.txt_dialog_sub = "Estamp ไม่สำเร็จ";
 
@@ -98,6 +109,7 @@ export default {
 
           default:
             this.dialog_status = true;
+            this.overlay = false;
             this.txt_dialog_sub = "ระบบผิดพลาด";
             this.txt_dialog_title = "ระบบผิดพลาด";
 
@@ -105,6 +117,7 @@ export default {
         }
       } catch (e) {
         this.dialog_status = true;
+        this.overlay = false;
         this.txt_dialog_sub = "ระบบผิดพลาด";
         this.txt_dialog_title = "ระบบผิดพลาด";
       }

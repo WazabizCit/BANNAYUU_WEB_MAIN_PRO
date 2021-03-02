@@ -10,13 +10,7 @@ export default {
     host: '0.0.0.0' // default: localhost
   },
   router: {
-    extendRoutes(routes, resolve) {
-      routes.push({
-        name: 'main',
-        path: '*',
-        component: resolve(__dirname, 'pages/main/index.vue')
-      })
-    }
+ 
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -78,7 +72,7 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
 
-    baseURL:"https://a55333850a75.jp.ngrok.io/" 
+    baseURL:"https://2828c0a5a173.jp.ngrok.io/" 
     //baseURL: "http://127.0.0.1:8504/"
 
   },

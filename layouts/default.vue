@@ -1,19 +1,18 @@
 <template>
   <div>
     <v-app>
-     <Navbar v-if="this.$nuxt.$auth.loggedIn" />
+     <!-- <Navbar v-if="this.$nuxt.$auth.loggedIn" /> -->
       <nuxt></nuxt>
     </v-app>
   </div>
 </template>
 
 <script>
-import Navbar from "../components/core/Navbar.vue";
 
 export default {
   name: "App",
   components: {
-    Navbar
+    
   },
   computed: {}
 };

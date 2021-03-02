@@ -1,6 +1,6 @@
 <template>
 
-   
+  <h1>Page not found</h1>
 
  
 </template>
@@ -17,7 +17,7 @@ export default {
  
   }, 
   mounted() {
-    this.$router.push("/login");     
+   // this.$router.push("/login");     
   }
 };
 </script>

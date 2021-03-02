@@ -155,9 +155,9 @@ export default {
         const response = await this.$axios.$post(
           "actionregistermember/regisert/member",
           {
-            phonenumber: this.phonenumber,
-            uuiduser: this.uuiduser,
-            tokenuser: this.tokenuser
+            m_phonenumber: this.phonenumber,
+            m_uuiduser: this.uuiduser,
+            m_tokenuser: this.tokenuser
           }
         );
 
