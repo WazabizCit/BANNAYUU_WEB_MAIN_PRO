@@ -32,7 +32,9 @@ export default {
       { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css' }
     ],
     script: [
-      { src: 'https://static.line-scdn.net/liff/edge/2/sdk.js' }
+      { src: 'https://static.line-scdn.net/liff/edge/2/sdk.js' },
+      { src: 'https://unpkg.com/share-api-polyfill/dist/share-min.js' },
+ 
     ]
   },
   loading: '~/components/loading.vue',
@@ -66,13 +68,14 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    'vue-social-sharing/nuxt'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
 
-    baseURL:"https://2828c0a5a173.jp.ngrok.io/" 
+    baseURL:"https://a13c22afe94f.jp.ngrok.io/" 
     //baseURL: "http://127.0.0.1:8504/"
 
   },

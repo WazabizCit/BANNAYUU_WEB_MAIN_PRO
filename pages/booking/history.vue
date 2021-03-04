@@ -5,6 +5,9 @@
         <div class="text-primary text-title mt-10 mb-2">QRCode ผู้มาติดต่อ</div>
       </v-row>
       <Qrcodeready />
+      <v-row>
+        <v-col class="mt-5" cols="12"></v-col>
+      </v-row>
       <v-btn class dark large color="orange" fixed right bottom @click="back">ย้อนกลับ</v-btn>
     </div>
   </v-container>

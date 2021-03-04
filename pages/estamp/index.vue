@@ -34,6 +34,10 @@
         </v-col>
       </v-row>
 
+      <v-row>
+        <v-col class="mt-5" cols="12"></v-col>
+      </v-row>
+
       <!-- <v-text-field class="mt-2" v-model="uuiduser" name="uuiduser" label="UUID" dense disabled></v-text-field> -->
 
       <div v-if="status_show">
@@ -50,7 +54,7 @@
       <v-progress-circular indeterminate size="64"></v-progress-circular>
     </v-overlay>
 
-    <Dialog_estamp   
+    <Dialog_estamp
       :dialog_estamp="dialog_estamp"
       :obj_select="obj_select"
       :uuiduser="uuiduser"
@@ -62,7 +66,6 @@
       :obj_select="obj_select"
       @closeDialogdetail="closeDialogdetail"
     />
-    
   </div>
 </template>
 
@@ -72,7 +75,6 @@ import Dialog_detail from "@/components/estamp_component/dialog_detail";
 
 export default {
   data: () => ({
-
     overlay: false,
     dialog_estamp: false,
     dialog_detail: false,
@@ -108,7 +110,7 @@ export default {
             // console.log(res.data);
           }
         })
-         .catch(error => {
+        .catch(error => {
           this.status_show = true;
           this.overlay = false;
         })
@@ -123,10 +125,10 @@ export default {
     }
   },
   mounted() {
-  // this.requestData();
+    // this.requestData();
     liff
-      .init({     
-         liffId: process.env.liffid_estamp
+      .init({
+        liffId: process.env.liffid_estamp
       })
       .then(() => {
         if (liff.isLoggedIn()) {

@@ -15,7 +15,8 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "core-js": "^3.8.3",
     "nuxt": "^2.14.12",
-    "qrcode.vue": "^1.7.0"
+    "qrcode.vue": "^1.7.0",
+    "vue-social-sharing": "^3.0.5"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.11.3"

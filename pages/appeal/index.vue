@@ -49,6 +49,11 @@
           </v-card>
         </v-col>
       </v-row>
+
+      <v-row>
+        <v-col class="mt-5" cols="12"></v-col>
+      </v-row>
+
       <v-dialog v-model="dialog_write_appeal" width="350px" persistent>
         <v-card>
           <v-card-title>รายละเอียด</v-card-title>

@@ -40,6 +40,11 @@
         </v-col>
       </v-row>
 
+        <v-row>
+        <v-col class="mt-5" cols="12"></v-col>
+      </v-row>
+
+
       <div v-if="status_show">
         <v-row class="mt-10">
           <v-col class="text-center" cols="12">

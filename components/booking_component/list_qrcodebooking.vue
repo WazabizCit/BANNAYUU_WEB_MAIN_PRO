@@ -15,10 +15,20 @@
                 <v-list-item-subtitle class="mt-1">กรุณาเข้าก่อนเวลา</v-list-item-subtitle>
                 <div class="text-orange">{{item.tbv_end_datetime}}</div>
               </v-list-item-content>
-              <v-icon class="v-icon-qr">mdi-qrcode-scan</v-icon>
+              <v-list-item-avatar tile size="80" color>
+                <v-img
+                  class="mt-2"
+                  :src="require('~/assets/img/qr-code.png')"
+                  contain
+                  max-width="60"
+                ></v-img>
+              </v-list-item-avatar>
             </v-list-item>
             <v-card-actions class>
               <v-btn color="success" @click="dialogqrcode(item)">เรียกดู QRCode</v-btn>
+              <v-btn color="info" @click="shareViaWebShare(item.tbv_code)">
+                <v-icon left>mdi-share</v-icon>แชร์
+              </v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -63,6 +73,12 @@ export default {
     items_qr: []
   }),
   methods: {
+    shareViaWebShare(textqrcode) {
+      window.open(
+        `line://msg/text/https://bannayuu.web.app/genqrcode?qrcode=${textqrcode}`,
+        "_blank"
+      );
+    },
     ...mapGetters({
       getInfoBooking: "booking/getInfoBooking"
     }),
@@ -107,8 +123,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-icon-qr {
-  font-size: 80px;
+.v-icon-qrs {
+  font-size: 50px;
   padding: 0 15px;
 }
 </style>

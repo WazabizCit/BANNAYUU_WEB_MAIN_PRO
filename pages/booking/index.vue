@@ -27,17 +27,21 @@
               </div>
               <v-spacer></v-spacer>
 
-              <v-avatar class="ma-3" size="110" tile >
+              <v-avatar class="ma-3" size="110" tile>
                 <v-img :src="item.src"></v-img>
               </v-avatar>
               <p></p>
             </div>
           </v-card>
         </v-col>
+        <!-- 
+        <v-text-field class="mt-2" v-model="uuiduser" name="uuiduser" label="UUID" dense disabled></v-text-field>-->
 
-        <v-text-field class="mt-2" v-model="uuiduser" name="uuiduser" label="UUID" dense disabled></v-text-field>
+        <div class="mt-5 w-100 text-orange text-center my-btn" @click="close_liff">ยกเลิกรายการ</div>
+      </v-row>
 
-        <div class="mt-5 w-100 text-orange text-center my-btn" @click="close_liff">ยกเลิกรายการx</div>
+      <v-row>
+        <v-col class="mt-5" cols="12"></v-col>
       </v-row>
     </v-container>
   </div>
@@ -96,7 +100,7 @@ export default {
     // this.setdata_user();
     liff
       .init({
-        liffId:  process.env.liffid_bookgin    
+        liffId: process.env.liffid_bookgin
       })
       .then(() => {
         if (liff.isLoggedIn()) {
