@@ -117,9 +117,9 @@
       <div v-if="status_show">
         <v-row class="mt-10">
           <v-col class="text-center" cols="12">
-            <v-icon>mdi-note-text-outline</v-icon>
+            <v-icon class="v-icon-size">mdi-note-text-outline</v-icon>
           </v-col>
-          <v-col class="text-center" cols="12">ไม่มีข้อมูล</v-col>
+          <v-col class="text-center text-primary" cols="12">ไม่มีข้อมูล</v-col>
         </v-row>
       </div>
     </v-container>
@@ -152,7 +152,7 @@ export default {
       return `${this.$axios.defaults.baseURL}api/getimage/${item}`;
     },
     getPhotonull() {
-      return `${this.$axios.defaults.baseURL}api/getimage/icons8-picture-512.png`;
+      return `${this.$axios.defaults.baseURL}api/getimage/noimage.png`;
     },
     btn_write_appeal() {
       this.dialog_write_appeal = false;
@@ -257,4 +257,11 @@ export default {
 .v-form {
   padding: 0 10px;
 }
+
+.v-icon-size {
+  font-size: 80px;
+  padding: 0 15px;
+}
 </style>
+
+

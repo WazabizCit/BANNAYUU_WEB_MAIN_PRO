@@ -75,8 +75,8 @@ export default {
       txt_dialog_title: "",
       txt_dialog_sub: "",
       form: {
-        phonenumber: "0958897472",
-        tokenuser: "AATT0859Y811",
+        phonenumber: "",
+        tokenuser: "",
         //uuiduser: "U2a9a887f26eb7200dd52e97a04c13d1b",
         uuiduser: "",
         firstname: "",

@@ -18,7 +18,7 @@
               <div class="text-primary">{{obj_select.card_code_status}}</div>
                <v-list-item-subtitle class="mt-1">เวลาเข้า</v-list-item-subtitle>
               <div class="text-primary">{{obj_select.parking_in_datetime}}</div>
-              <v-list-item-subtitle class="mt-1">สถานะ Estamp</v-list-item-subtitle>
+              <v-list-item-subtitle class="mt-1">สถานะประทับตรา</v-list-item-subtitle>
               <div class="text-primary">{{obj_select.estamp_name}}</div>
             </v-list-item-content>
             <v-icon class="v-icon-details-star">mdi-card-account-details-star</v-icon>

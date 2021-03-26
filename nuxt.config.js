@@ -10,7 +10,7 @@ export default {
     host: '0.0.0.0' // default: localhost
   },
   router: {
- 
+
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -34,7 +34,9 @@ export default {
     script: [
       { src: 'https://static.line-scdn.net/liff/edge/2/sdk.js' },
       { src: 'https://unpkg.com/share-api-polyfill/dist/share-min.js' },
- 
+      { src: 'https://cdn.omise.co/omise.js' },
+
+
     ]
   },
   loading: '~/components/loading.vue',
@@ -69,21 +71,22 @@ export default {
     '@nuxtjs/axios',
     '@nuxtjs/auth',
     '@nuxtjs/dotenv',
-    'vue-social-sharing/nuxt'
+    'vue-social-sharing/nuxt',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
 
-    baseURL:"https://a13c22afe94f.jp.ngrok.io/" 
+    //baseURL: "https://e9833eed11f4.jp.ngrok.io/"
     //baseURL: "http://127.0.0.1:8504/"
+    baseURL: "https://cit.bannayuu.com/apiline/"
 
   },
 
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
-    customVariables:['~/assets/variables.scss'],
+    customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: true,
       themes: {
@@ -105,6 +108,7 @@ export default {
       dark: false,
       themes: {
         light: {
+
           primary: '#bf5f82',
           accent: colors.grey.darken3,
           secondary: '#aeea00',
@@ -116,6 +120,7 @@ export default {
           white: '#ffffff',
           black: '#000000',
           orange: '#ef6c00',
+          card_primary: '#d1d9ff',
           card_success: '#00b400',
           card_blue: '#008cff',
           card_gray: '#a7a9ac',

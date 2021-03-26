@@ -37,9 +37,9 @@
       <div v-if="status_show">
         <v-row class="mt-10">
           <v-col class="text-center" cols="12">
-            <v-icon>mdi-note-text-outline</v-icon>
+            <v-icon class="v-icon-size">mdi-note-text-outline</v-icon>
           </v-col>
-          <v-col class="text-center" cols="12">ไม่มีข้อมูล</v-col>
+          <v-col class="text-center text-primary" cols="12">ไม่มีข้อมูล</v-col>
         </v-row>
       </div>
 
@@ -122,9 +122,12 @@ export default {
 };
 </script>
 
+
+
 <style lang="scss" scoped>
-.v-icon-qrs {
-  font-size: 50px;
+.v-icon-size {
+  font-size: 80px;
   padding: 0 15px;
 }
 </style>
+

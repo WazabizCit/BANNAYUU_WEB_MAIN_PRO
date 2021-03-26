@@ -5,7 +5,7 @@
   <div>
     <v-container class="pt-0 pb-0">
       <v-row align="center" justify="center">
-        <div class="text-primary text-title mt-5 mb-2">Estamp ผู้มาติดต่อ</div>
+        <div class="text-primary text-title mt-5 mb-2">ประทับตราผู้มาติดต่อ</div>
         <v-col v-for="item in items_list" :key="item.tbv_id" cols="12">
           <v-card class="mx-auto mt-2" max-width="364" raised>
             <v-list-item class="mb-3" three-line>
@@ -16,13 +16,13 @@
                 <div class="text-orange">{{item.card_code}}</div>
                 <v-list-item-subtitle class="mt-1">รูปแบบผู้มาติดต่อ</v-list-item-subtitle>
                 <div class="text-orange">{{item.card_code_status}}</div>
-                <v-list-item-subtitle class="mt-1">สถานะ Estamp</v-list-item-subtitle>
+                <v-list-item-subtitle class="mt-1">สถานะประทับตรา</v-list-item-subtitle>
                 <div class="text-orange">{{item.estamp_name}}</div>
               </v-list-item-content>
               <v-icon class="v-icon-details-star">mdi-card-account-details-star</v-icon>
             </v-list-item>
             <v-card-actions class>
-              <v-btn color="success" @click="btn_estamp(item)">
+              <v-btn :disabled="item.estamp_flag == 'Y'" color="success" @click="btn_estamp(item)">
                 <v-icon left>mdi-stamper</v-icon>Estamp
               </v-btn>
               <v-spacer></v-spacer>
@@ -43,9 +43,9 @@
       <div v-if="status_show">
         <v-row class="mt-10">
           <v-col class="text-center" cols="12">
-            <v-icon>mdi-note-text-outline</v-icon>
+            <v-icon class="v-icon-size">mdi-note-text-outline</v-icon>
           </v-col>
-          <v-col class="text-center" cols="12">ไม่มีข้อมูล</v-col>
+          <v-col class="text-center text-primary" cols="12">ไม่มีข้อมูล</v-col>
         </v-row>
       </div>
     </v-container>
@@ -125,7 +125,7 @@ export default {
     }
   },
   mounted() {
-    // this.requestData();
+    
     liff
       .init({
         liffId: process.env.liffid_estamp
@@ -141,6 +141,7 @@ export default {
           liff.login();
         }
       });
+      
   },
   components: {
     Dialog_estamp,
@@ -154,4 +155,11 @@ export default {
   font-size: 80px;
   padding: 0 15px;
 }
+
+.v-icon-size {
+  font-size: 80px;
+  padding: 0 15px;
+}
 </style>
+
+

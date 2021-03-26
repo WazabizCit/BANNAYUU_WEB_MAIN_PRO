@@ -12,7 +12,7 @@
         </v-col>
         <v-col cols="12">
           <v-form ref="form" v-model="valid">
-            <p class="text-center text-sub-title mb-0">กรุณากรอกรายละเอียดผู้มาติดต่อ</p>
+            <p class="text-center text-sub-title mb-0 text-primary">กรุณากรอกรายละเอียดผู้มาติดต่อ</p>
             <div class="mt-8">
               <!-- <v-text-field class="mt-2" v-model="uuiduser" name="uuiduser" label="UUID" dense disabled></v-text-field> -->
               <v-text-field
@@ -103,14 +103,14 @@
               </template>
               <v-time-picker v-if="modaltime" v-model="pickertime" full-width format="24hr">
                 <v-spacer></v-spacer>
-                <v-btn text color="primary" @click="modaltime = false">Cancel</v-btn>
-                <v-btn text color="primary" @click="settimepick(pickertime)">OK</v-btn>
+                <v-btn text color="primary" @click="modaltime = false">ยกเลิก</v-btn>
+                <v-btn text color="primary" @click="settimepick(pickertime)">ตกลง</v-btn>
               </v-time-picker>
             </v-dialog>
 
-            <v-btn rounded color="primary" dark class="w-100 mt-4 my-btn" @click="next">ยืนยัน</v-btn>
+            <v-btn rounded color="success" dark class="w-100 mt-4 my-btn" @click="next">ยืนยัน</v-btn>
 
-            <div class="mt-5 w-100 text-orange text-center my-btn" @click="back">ย้อนกลับ</div>
+            <div class="mt-5 mb-5 w-100 text-orange text-center my-btn" @click="back">ย้อนกลับ</div>
           </v-form>
         </v-col>
       </v-row>

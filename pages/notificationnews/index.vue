@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div color="card_primary">
     <v-container class="pt-0 pb-0">
       <v-row>
         <v-col cols="12">
@@ -22,8 +22,7 @@
               <v-spacer></v-spacer>
               <v-btn
                 v-if="item.hni_link_text != null "
-                text
-                color="teal accent-4"
+                color="error"
                 @click="openlink(item.hni_link_text)"
               >Link</v-btn>
             </v-card-actions>
@@ -41,9 +40,9 @@
       <div v-if="status_show">
         <v-row class="mt-10">
           <v-col class="text-center" cols="12">
-            <v-icon>mdi-note-text-outline</v-icon>
+            <v-icon class="v-icon-size">mdi-note-text-outline</v-icon>
           </v-col>
-          <v-col class="text-center" cols="12">ไม่มีข้อมูล</v-col>
+          <v-col class="text-center text-primary" cols="12">ไม่มีข้อมูล</v-col>
         </v-row>
       </div>
     </v-container>
@@ -70,8 +69,7 @@ export default {
     async requestData() {
       this.overlay = true;
       this.items_list = [];
-      this.$axios
-        .$post("actionnotification/get_list_notification", {
+      this.$axios.$post("actionnotification/get_list_notification", {
           m_uuiduser: this.uuiduser,
           m_company_id: process.env.company_id
         })
@@ -92,22 +90,21 @@ export default {
     }
   },
   mounted() {
-
-     liff
-    .init({
-      liffId: process.env.liffid_notification
-    })
-    .then(() => {
-      if (liff.isLoggedIn()) {
-        liff.getProfile().then(profile => {
-          this.uuiduser = profile.userId;
-          this.requestData();
-          //this.profileImg = profile.pictureUrl;
-        });
-      } else {
-        liff.login();
-      }
-    });
+    liff
+      .init({
+        liffId: process.env.liffid_notification
+      })
+      .then(() => {
+        if (liff.isLoggedIn()) {
+          liff.getProfile().then(profile => {
+            this.uuiduser = profile.userId;
+            this.requestData();
+            //this.profileImg = profile.pictureUrl;
+          });
+        } else {
+          liff.login();
+        }
+      });
   },
   components: {}
 };
@@ -116,5 +113,9 @@ export default {
 <style lang="scss" scoped>
 .v-form {
   padding: 0 10px;
+}
+.v-icon-size {
+  font-size: 80px;
+  padding: 0 15px;
 }
 </style>
