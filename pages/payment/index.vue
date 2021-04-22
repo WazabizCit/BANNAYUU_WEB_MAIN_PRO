@@ -1,86 +1,73 @@
 <template>
-  <v-container>
-    <v-card max-width="400" class="mx-auto">
-      <v-row dense>
-        <v-col cols="12">
-          <v-card color="#385F73" dark>
-            <v-card-title class="headline">Unlimited music now</v-card-title>
+  <v-container class="pt-0 pb-0">
+    <v-row>
+      <v-col cols="12">
+        <div class="mt-7 mb-2 text-primary text-title text-center">รายการบิล</div>
+      </v-col>
+    </v-row>
 
-            <v-card-subtitle>Listen to your favorite artists and albums whenever and wherever, online and offline.</v-card-subtitle>
+    <v-sheet elevation="6">
+      <v-tabs
+        v-model="tab"
+        background-color="white"
+        grow
+        next-icon="mdi-arrow-right-bold-box-outline"
+        prev-icon="mdi-arrow-left-bold-box-outline"
+        show-arrows
+      >
+        <v-tab v-for="item in items" :key="item.tab">{{ item.tab }}</v-tab>
+      </v-tabs>
+    </v-sheet>
 
-            <v-card-actions>
-              <v-btn text @click="open_dialog_select_pay">Listen Now</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-card>
-
-    <v-dialog v-model="dialog_select_pay" width="350px" persistent>
-      <v-card>
-        <v-card-title>
-          <v-icon large left>mdi-view-list-outline</v-icon>
-          <span class="title font-weight-light">เลือกวิธีการชำระเงิน</span>
-        </v-card-title>
-
-        <v-card-text>
-          <v-btn color="info" block @click="open_dialog_attachfile">แนบไฟล์การโอน</v-btn>
-          <p></p>
-          <v-btn color="info" block @click="open_dialog_payment">ชำระผ่านบัตรเครดิต</v-btn>
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="error" class="mr-4" @click="close_dialog_select_pay">ปิด</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <DialogPayment :dialog_payment="dialog_payment" @closeDialogPayment="closeDialogPayment" />
-    <DialogAttachfile :dialog_attachfile="dialog_attachfile" @closeDialogAttachfile="closeDialogAttachfile" />
+    <v-tabs-items v-model="tab">
+      <v-tab-item v-for="item in items" :key="item.tab">
+        <v-card flat>
+          <List_bill :uuiduser="uuiduser" v-if="tab == 0" />
+          <List_bill_history :uuiduser="uuiduser" v-if="tab == 1" />
+        </v-card>
+      </v-tab-item>
+    </v-tabs-items>
   </v-container>
 </template>
 
-
 <script>
-import DialogPayment from "@/components/payment/dialog_payment";
-import DialogAttachfile from "@/components/payment/dialog_attachfile";
+import List_bill from "@/components/payment_component/list_bill";
+import List_bill_history from "@/components/payment_component/list_bill_history";
 
 export default {
   data() {
     return {
-      dialog_attachfile:false,
-      dialog_payment: false,
-      dialog_select_pay: false
+      uuiduser: "",
+      tab: 0,
+      tabstatus: 0,
+      items: [
+        { tab: "รอการชำระ", status: "list_bill" },
+        { tab: "สำเร็จ", status: "list_bill_history" }
+      ]
     };
   },
   components: {
-    DialogPayment,
-    DialogAttachfile
+    List_bill,
+    List_bill_history
   },
   methods: {
-    open_dialog_select_pay() {
-      this.dialog_select_pay = true;
-    },
-    open_dialog_payment() {
-      this.dialog_select_pay = false;
-      this.dialog_payment = true;
-    },
-    close_dialog_select_pay() {
-      this.dialog_select_pay = false;
-    },
-    closeDialogPayment(obj) {
-      this.dialog_payment = obj;
-    },
-    open_dialog_attachfile() {
-      this.dialog_select_pay = false;
-      this.dialog_attachfile = true;
-    },
-    closeDialogAttachfile(obj) {
-      this.dialog_attachfile = obj;
-    }
-    
 
+  },
+  mounted() {
+    liff
+      .init({
+        liffId: process.env.liffid_payment
+      })
+      .then(() => {
+        if (liff.isLoggedIn()) {
+          liff.getProfile().then(profile => {
+            this.uuiduser = profile.userId;
+           
+          });
+        } else {
+          liff.login();
+        }
+      });
   }
 };
 </script>

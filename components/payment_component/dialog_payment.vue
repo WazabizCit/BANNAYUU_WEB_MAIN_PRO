@@ -38,7 +38,7 @@
                 <v-col class="pa-1 ma-0" cols="6">
                   <v-select
                     v-model="card.expiration_year"
-                    :items="['2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025','2026','2027','2028','2029','2030','2031','2032']"
+                    :items="['2021','2022','2023','2024','2025','2026','2027','2028','2029','2030','2031','2032']"
                     label="Year"
                     :rules="textRulesYear"
                   ></v-select>
@@ -62,7 +62,18 @@
           </v-card-text>
 
           <v-card-actions class="pa-5">
-            <v-btn color="primary" class="mr-4" @click="btn_payment">ชำระเงิน 12000 บาท</v-btn>
+            <v-btn
+              v-if="this.obj_select == null"
+              color="primary"
+              class="mr-4"
+              @click="btn_payment"
+            >ชำระเงิน 0 บาท</v-btn>
+            <v-btn
+              v-else
+              color="primary"
+              class="mr-4"
+              @click="btn_payment"
+            >ชำระเงิน {{this.obj_select.payment_amount}} บาท</v-btn>
             <v-spacer></v-spacer>
             <v-btn color="error" class="mr-4" @click="closeDialogPayment">ยกเลิก</v-btn>
           </v-card-actions>
@@ -78,52 +89,20 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-
-    <v-dialog v-model="dialog_status_payment_success" persistent width="300">
-      <v-card max-width="344" class="mx-auto" raised>
-        <v-list-item-content class="justify-center">
-          <v-img
-            class="mt-2"
-            :src="require('~/assets/img/icons8-checked-80.png')"
-            contain
-            max-width="60"
-          ></v-img>
-          <div class="text-success headline text-center mt-3">ทำรายการสำเร็จ</div>
-          <v-list-item-subtitle class="text-center mt-2">ลูกค้าทำรายการชำระเงินสำเร็จ</v-list-item-subtitle>
-          <v-list-item-subtitle class="text-center">กรุณากดปุ่มตกลงเพื่อทำรายการต่อ</v-list-item-subtitle>
-        </v-list-item-content>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            class="text-center"
-            color="primary"
-            @click="dialog_status_payment_success = false"
-          >ตกลง</v-btn>
-          <v-spacer></v-spacer>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <Dialog_popup
-      :dialog_status="dialog_status"
-      :txt_dialog_sub="txt_dialog_sub"
-      :txt_dialog_title="txt_dialog_title"
-      @closeDialog="closeDialog"
-    />
   </div>
 </template>
 
 
 
 <script>
-import Dialog_popup from "@/components/dialog_popup.vue";
-
 export default {
   props: {
-    obj_select: {},
-    dialog_payment: false
+    obj_select: null,
+    dialog_payment: false,
+    uuiduser: ""
   },
   data: () => ({
+    paymentamount: "0",
     textRulescvv: [v1 => !!v1 || "กรุณาใส่ CVV"],
     textRulesYear: [v1 => !!v1 || "กรุณาใส่ Year"],
     textRulesCardNumber: [v1 => !!v1 || "กรุณาใส่ Card Number"],
@@ -157,7 +136,11 @@ export default {
     },
     closeDialogPayment() {
       let status_dialog_payment = this.dialog_payment;
-      this.$emit("closeDialogPayment", (this.status_dialog_payment = false));
+      this.$emit(
+        "closeDialogPayment",
+        (this.status_dialog_payment = false),
+        this.status_senddata
+      );
     },
     async btn_payment() {
       if (this.$refs.form.validate()) {
@@ -167,33 +150,47 @@ export default {
           switch (statusCode) {
             case 200:
               this.$axios
-                .$post("actionpayment/testpay", {
-                  m_tokenid: response["id"]
+                .$post("actionpayment/pay_creditcard", {
+                  m_tokenid: response["id"],
+                  m_payment_amount: this.obj_select.payment_amount,
+                  m_uuiduser: this.uuiduser,
+                  m_scfi_code: this.obj_select.scfi_code,
+                  m_payment_event_id: this.obj_select.payment_event_id,
+                  m_company_id : process.env.company_id
                 })
                 .then(res => {
-                  this.closeDialogPayment();
                   this.set_default_value();
-                  this.dialog_status_payment_success = true;
                   this.overlay = false;
+                  switch (res.message) {
+                    case "success":
+                      this.status_senddata = "success";
+                      this.closeDialogPayment();
+                      break;
+                    default:
+                      this.status_senddata = "fail";
+                      this.closeDialogPayment();
+                      break;
+                  }
                 })
-                .catch(error => {})
+                .catch(error => {
+                  this.overlay = false;
+                  this.status_senddata = "fail";
+                  this.closeDialogPayment();
+                })
                 .finally();
               break;
 
             default:
               this.overlay = false;
-              this.dialog_status = true;
-              this.txt_dialog_sub = "แจ้งเตือน";
-              this.txt_dialog_title = "ข้อมูลบัตรไม่ถูกต้อง";
+              this.status_senddata = "fail";
+              this.closeDialogPayment();
               break;
           }
         });
       }
     }
   },
-  components: {
-    Dialog_popup
-  },
+  components: {},
   mounted() {}
 };
 </script>

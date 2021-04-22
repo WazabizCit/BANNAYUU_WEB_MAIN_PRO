@@ -77,10 +77,10 @@
                   v-on="on"
                 ></v-text-field>
               </template>
-              <v-date-picker v-model="pickerdate" scrollable :min="nowDate">
+              <v-date-picker v-model="pickerdate" scrollable :min="nowDate" locale="th">
                 <v-spacer></v-spacer>
-                <v-btn text color="primary" @click="modaldate = false">Cancel</v-btn>
-                <v-btn text color="primary" @click="setdatepick(pickerdate)">OK</v-btn>
+                <v-btn text color="primary" @click="modaldate = false">ยกเลิก</v-btn>
+                <v-btn text color="primary" @click="setdatepick(pickerdate)">ตกลง</v-btn>
               </v-date-picker>
             </v-dialog>
 

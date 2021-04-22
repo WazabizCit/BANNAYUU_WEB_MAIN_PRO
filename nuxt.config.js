@@ -15,8 +15,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - webbannayuu',
-    title: 'webbannayuu',
+    titleTemplate: '%s - bannayuu',
+    title: 'Bannayuu',
     htmlAttrs: {
       lang: 'en'
     },
@@ -26,7 +26,7 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.png' },
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.jpg' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' },
       { rel: 'stylesheet', href: 'https://use.fontawesome.com/releases/v5.0.13/css/all.css' }
@@ -76,32 +76,13 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-
-    //baseURL: "https://e9833eed11f4.jp.ngrok.io/"
+    baseURL: "https://35824214565b.jp.ngrok.io/"
     //baseURL: "http://127.0.0.1:8504/"
-    baseURL: "https://cit.bannayuu.com/apiline/"
-
+    //baseURL: "https://cit.bannayuu.com/apiline/"
   },
 
 
-  // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
-  vuetify: {
-    customVariables: ['~/assets/variables.scss'],
-    theme: {
-      dark: true,
-      themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
-          warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
-        }
-      }
-    }
-  },
+ 
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
@@ -109,7 +90,7 @@ export default {
       themes: {
         light: {
 
-          primary: '#bf5f82',
+          primary: '#084c7b',
           accent: colors.grey.darken3,
           secondary: '#aeea00',
           info: colors.teal.lighten1,

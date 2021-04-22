@@ -7,7 +7,7 @@
         </v-col>
 
         <v-row class="ml-5 mr-5 mt-5" align="center" justify="space-around">
-          <v-btn block color="success" @click="btn_add_sos">
+          <v-btn block color="red" @click="btn_add_sos" dark>
             <v-icon left>mdi-car-brake-alert</v-icon>แจ้งฉุกเฉิน
           </v-btn>
         </v-row>
@@ -16,7 +16,7 @@
       <v-row align="center" justify="center">
         <div class="text-primary text-title mt-10 mb-2">ประวัติฉุกเฉิน</div>
         <v-col v-for="item in items_list" :key="item.sos_id" cols="12">
-          <v-card class="mx-auto mt-2" max-width="364" raised>
+          <v-card class="mx-auto mt-2" max-width="364" raised elevation="10">
             <v-list-item class="mb-3" three-line>
               <v-list-item-content>
                 <v-list-item-subtitle>Code</v-list-item-subtitle>
@@ -115,7 +115,7 @@ export default {
       txt_dialog_title: "",
       txt_dialog_sub: "",
       image_sos: null,
-      uuiduser: "U2a9a887f26eb7200dd52e97a04c13d1b",
+      uuiduser: "",
       sos_header_text: "",
       sos_detail_text: "",
       dialog_write_sos: false,
@@ -133,48 +133,48 @@ export default {
       this.dialog_write_sos = true;
     },
     async confirm_data() {
-       socket.emit("send_sos", { "company_id": 1 });
-      // if (this.$refs.form.validate()) {
-      //   try {
-      //     this.overlay = true;
-      //     this.dialog_write_sos = false;
+      if (this.$refs.form.validate()) {
+        try {
+          this.overlay = true;
+          this.dialog_write_sos = false;
 
-      //     this.$axios
-      //       .$post("actionsos/send_sos", {
-      //         m_uuiduser: this.uuiduser,
-      //         m_sos_header_text: this.sos_header_text,
-      //         m_sos_detail_text: this.sos_detail_text,
-      //         m_company_id: process.env.company_id
-      //       })
-      //       .then(res => {
-      //         this.overlay = false;
-      //         this.sos_header_text = "";
-      //         this.sos_detail_text = "";
-      //         this.requestData();
-      //         switch (res_data.message) {
-      //           case "success":
-                 
-      //             this.dialog_status_success = true;
+          this.$axios
+            .$post("actionsos/send_sos", {
+              m_uuiduser: this.uuiduser,
+              m_sos_header_text: this.sos_header_text,
+              m_sos_detail_text: this.sos_detail_text,
+              m_company_id: process.env.company_id
+            })
+            .then(res => {
+              this.overlay = false;
+              this.sos_header_text = "";
+              this.sos_detail_text = "";
+              this.requestData();
 
-      //             break;
-      //           default:
-      //             this.dialog_status = true;
-      //             this.txt_dialog_title = "แจ้งเตือน";
-      //             this.txt_dialog_sub = "ระบบผิดพลาด";
-      //             break;
-      //         }
-      //       })
-      //       .catch(error => {
-      //         this.overlay = false;
-      //         this.status_show = false;
-      //       })
-      //       .finally();
-      //   } catch (error) {
-      //     this.dialog_status = true;
-      //     this.txt_dialog_title = "แจ้งเตือน";
-      //     this.txt_dialog_sub = "ระบบผิดพลาด";
-      //   }
-     // }
+              switch (res.message) {
+                case "success":
+                  this.dialog_status_success = true;
+                  socket.emit("send_sos", { company_id: res.data.company_id });
+
+                  break;
+                default:
+                  this.dialog_status = true;
+                  this.txt_dialog_title = "แจ้งเตือน";
+                  this.txt_dialog_sub = "ระบบผิดพลาด";
+                  break;
+              }
+            })
+            .catch(error => {
+              this.overlay = false;
+              this.status_show = false;
+            })
+            .finally();
+        } catch (error) {
+          this.dialog_status = true;
+          this.txt_dialog_title = "แจ้งเตือน";
+          this.txt_dialog_sub = "ระบบผิดพลาด";
+        }
+      }
     },
 
     async requestData() {
@@ -205,21 +205,20 @@ export default {
     }
   },
   mounted() {
-    this.requestData();
-    // liff
-    //   .init({
-    //     liffId: process.env.liffid_sos
-    //   })
-    //   .then(() => {
-    //     if (liff.isLoggedIn()) {
-    //       liff.getProfile().then(profile => {
-    //         this.uuiduser = profile.userId;
-    //         this.requestData();
-    //       });
-    //     } else {
-    //       liff.login();
-    //     }
-    //   });
+    liff
+      .init({
+        liffId: process.env.liffid_sos
+      })
+      .then(() => {
+        if (liff.isLoggedIn()) {
+          liff.getProfile().then(profile => {
+            this.uuiduser = profile.userId;
+            this.requestData();
+          });
+        } else {
+          liff.login();
+        }
+      });
   },
   components: {
     Dialog_popup
