@@ -22,8 +22,8 @@
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="item in items" :key="item.tab">
         <v-card flat>
-          <List_bill :uuiduser="uuiduser" v-if="tab == 0" />
-          <List_bill_history :uuiduser="uuiduser" v-if="tab == 1" />
+          <List_bill :uuiduser="uuiduser" v-if="tab == 0 && uuiduser != null " />
+          <List_bill_history :uuiduser="uuiduser" v-if="tab == 1 && uuiduser != null" />
         </v-card>
       </v-tab-item>
     </v-tabs-items>
@@ -37,7 +37,7 @@ import List_bill_history from "@/components/payment_component/list_bill_history"
 export default {
   data() {
     return {
-      uuiduser: "",
+      uuiduser: null,
       tab: 0,
       tabstatus: 0,
       items: [
@@ -50,10 +50,9 @@ export default {
     List_bill,
     List_bill_history
   },
-  methods: {
-
-  },
-  mounted() {
+  methods: {},
+  created() {  
+   
     liff
       .init({
         liffId: process.env.liffid_payment
@@ -62,7 +61,6 @@ export default {
         if (liff.isLoggedIn()) {
           liff.getProfile().then(profile => {
             this.uuiduser = profile.userId;
-           
           });
         } else {
           liff.login();

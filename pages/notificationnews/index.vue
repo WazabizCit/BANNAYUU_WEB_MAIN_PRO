@@ -69,12 +69,14 @@ export default {
     async requestData() {
       this.overlay = true;
       this.items_list = [];
-      this.$axios.$post("actionnotification/get_list_notification", {
+      this.$axios
+        .$post("actionnotification/get_list_notification", {
           m_uuiduser: this.uuiduser,
           m_company_id: process.env.company_id
         })
         .then(res => {
           this.overlay = false;
+          if (res.data == null) return (this.status_show = true);
           if (res.data.length == 0) {
             this.status_show = true;
           } else {
@@ -99,7 +101,7 @@ export default {
           liff.getProfile().then(profile => {
             this.uuiduser = profile.userId;
             this.requestData();
-            //this.profileImg = profile.pictureUrl;
+
           });
         } else {
           liff.login();

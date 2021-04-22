@@ -16,6 +16,8 @@
                 <div class="text-orange">{{item.card_code}}</div>
                 <v-list-item-subtitle class="mt-1">รูปแบบผู้มาติดต่อ</v-list-item-subtitle>
                 <div class="text-orange">{{item.card_code_status}}</div>
+                     <v-list-item-subtitle class="mt-1">เวลาเข้า</v-list-item-subtitle>
+                <div class="text-orange">{{item.parking_in_datetime}}</div>
                 <v-list-item-subtitle class="mt-1">สถานะประทับตรา</v-list-item-subtitle>
                 <div class="text-orange">{{item.estamp_name}}</div>
               </v-list-item-content>

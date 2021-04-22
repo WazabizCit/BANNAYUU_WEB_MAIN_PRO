@@ -187,6 +187,7 @@ export default {
         })
         .then(res => {
           this.overlay = false;
+          if (res.data == null) return (this.status_show = true);
           if (res.data.length == 0) {
             this.status_show = true;
           } else {

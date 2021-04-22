@@ -190,7 +190,7 @@ export default {
     }
   },
   mounted() {
-    //this.requestData();
+
     liff
       .init({
         liffId: process.env.liffid_box
@@ -200,7 +200,7 @@ export default {
           liff.getProfile().then(profile => {
             this.uuiduser = profile.userId;
             this.requestData();
-            //this.profileImg = profile.pictureUrl;
+           
           });
         } else {
           liff.login();
