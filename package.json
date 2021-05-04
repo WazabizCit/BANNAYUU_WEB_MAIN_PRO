@@ -18,8 +18,7 @@
     "qrcode.vue": "^1.7.0",
     "v-mask": "^2.2.4",
     "vue-social-sharing": "^3.0.5",
-    "vue-the-mask": "^0.11.1",
-    "socket.io-client": "2.3.0"
+    "vue-the-mask": "^0.11.1"
   },
   "devDependencies": {
     "@nuxtjs/vuetify": "^1.11.3"

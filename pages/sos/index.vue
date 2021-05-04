@@ -103,7 +103,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import Dialog_popup from "@/components/dialog_popup.vue";
-import socket from "@/plugins/socket.io";
+
 
 export default {
   data() {
@@ -154,7 +154,7 @@ export default {
               switch (res.message) {
                 case "success":
                   this.dialog_status_success = true;
-                  socket.emit("send_sos", { company_id: res.data.company_id });
+                //  socket.emit("send_sos", { company_id: res.data.company_id });
 
                   break;
                 default:
@@ -206,6 +206,7 @@ export default {
     }
   },
   mounted() {
+
     liff
       .init({
         liffId: process.env.liffid_sos
