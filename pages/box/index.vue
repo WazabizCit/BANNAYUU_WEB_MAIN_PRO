@@ -7,24 +7,30 @@
           <v-card class="mx-auto mt-2" max-width="364" raised>
             <v-list-item class="mb-3" three-line>
               <v-list-item-content>
-                <v-list-item-subtitle>Code</v-list-item-subtitle>
-                <div class="text-orange">{{ item.tpi_code }}</div>
-                <v-list-item-subtitle class="mt-1">เวลาเจ้าหน้าที่รับพัสดุ</v-list-item-subtitle>
-                <div class="text-orange">{{ item.receive_parcel_datetime }}</div>
-                <v-list-item-subtitle class="mt-1">รูปภาพ</v-list-item-subtitle>
                 <v-img class="mt-1" height="250" contain :src="getPhoto(item.image_parcel_receive)"></v-img>
+                <v-list-item-subtitle>Code</v-list-item-subtitle>
+                <div class="text-blue">{{ item.tpi_code }}</div>
+                <v-list-item-subtitle class="mt-1">เวลาเจ้าหน้าที่รับพัสดุ</v-list-item-subtitle>
+                <div class="text-blue">{{ item.receive_parcel_datetime }}</div>
+
                 <v-list-item-subtitle class="mt-1">รายละเอียด</v-list-item-subtitle>
-                <div class="text-orange">{{ item.receive_parcel_detail }}</div>
+                <div class="text-blue">{{ item.receive_parcel_detail }}</div>
                 <v-list-item-subtitle class="mt-1">สถานะพัสดุ</v-list-item-subtitle>
-                <div v-if="item.tpi_status == 'receive_parcel'" class="text-orange">รับพัสดุจากคนส่ง</div>
+                <div
+                  v-if="item.tpi_status == 'receive_parcel'"
+                  class="text-blue"
+                >เจ้าหน้าที่รอส่งมอบลูกค้า</div>
                 <div
                   v-else-if="item.tpi_status == 'send_parcel'"
-                  class="text-orange">ลูกค้ารับพัสดุจากเจ้าหน้าที่</div>
+                  class="text-blue"
+                >ลูกค้ารับพัสดุจากเจ้าหน้าที่</div>
                 <div
                   v-else-if="item.tpi_status == 'receive_vilager'"
-                  class="text-orange"
+                  class="text-success"
                 >ลูกค้าได้ทำการยืนยันรับพัสดุแล้ว</div>
-                <div v-else class="text-orange">-</div>
+                <div v-else-if="item.tpi_status == 'reject_parcel'" class="text-red">รายการถูกยกเลิก</div>
+
+                <div v-else class="text-blue">-</div>
               </v-list-item-content>
             </v-list-item>
             <v-card-actions class>
@@ -32,7 +38,8 @@
               <v-btn
                 color="success"
                 :disabled="item.tpi_status != 'send_parcel'"
-                @click="btn_show_box(item)">
+                @click="btn_show_box(item)"
+              >
                 <v-icon left>mdi-hand-okay</v-icon>ยืนยันการรับพัสดุ
               </v-btn>
             </v-card-actions>
@@ -67,8 +74,7 @@
           <v-card-actions class="mt-7">
             <v-spacer></v-spacer>
             <v-btn color="success" @click="btn_confirm_box">ยืนยัน</v-btn>
-            <v-btn color="red" @click="dialog_confirm_box = false">ปิด</v-btn>
-            <v-spacer></v-spacer>
+            <v-btn color="red" dark @click="dialog_confirm_box = false">ปิด</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -191,6 +197,7 @@ export default {
   },
   mounted() {
 
+
     liff
       .init({
         liffId: process.env.liffid_box
@@ -200,7 +207,7 @@ export default {
           liff.getProfile().then(profile => {
             this.uuiduser = profile.userId;
             this.requestData();
-           
+
           });
         } else {
           liff.login();

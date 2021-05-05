@@ -108,7 +108,7 @@
               </v-time-picker>
             </v-dialog>
 
-            <v-btn rounded color="success" dark class="w-100 mt-4 my-btn" @click="next">ยืนยัน</v-btn>
+            <v-btn rounded color="primary" dark class="w-100 mt-4 my-btn" @click="next">ยืนยันลงทะเบียน</v-btn>
 
             <div class="mt-5 mb-5 w-100 text-orange text-center my-btn" @click="back">ย้อนกลับ</div>
           </v-form>
@@ -134,8 +134,7 @@ export default {
       valid: false,
       dialog_status: false,
       txt_dialog_title: "",
-      txt_dialog_sub: "",
-      // uuiduser: "U2a9a887f26eb7200dd52e97a04c13d1b",
+      txt_dialog_sub: "",    
       uuiduser: this.getInfoBooking().uuiduser,
       pickerdate: new Date().toISOString().substr(0, 10),
       nowDate: new Date().toISOString().slice(0, 10),

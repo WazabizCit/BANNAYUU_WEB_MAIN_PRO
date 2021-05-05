@@ -22,7 +22,7 @@
               <v-spacer></v-spacer>
               <v-btn
                 v-if="item.hni_link_text != null "
-                color="error"
+                color="primary"
                 @click="openlink(item.hni_link_text)"
               >Link</v-btn>
             </v-card-actions>
@@ -92,6 +92,8 @@ export default {
     }
   },
   mounted() {
+
+
     liff
       .init({
         liffId: process.env.liffid_notification

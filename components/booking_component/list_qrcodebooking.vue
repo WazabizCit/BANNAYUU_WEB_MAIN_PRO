@@ -7,13 +7,13 @@
             <v-list-item class="mb-3" three-line>
               <v-list-item-content>
                 <v-list-item-subtitle>ชื่อผู้มาติดต่อ</v-list-item-subtitle>
-                <div class="text-orange">{{item.tbv_contact_person}}</div>
+                <div class="text-blue">{{item.tbv_contact_person}}</div>
                 <v-list-item-subtitle class="mt-1">ทะเบียนรถ</v-list-item-subtitle>
-                <div class="text-orange">{{item.tbv_license_plate}}</div>
+                <div class="text-blue">{{item.tbv_license_plate}}</div>
                 <v-list-item-subtitle class="mt-1">เบอร์ติดต่อ</v-list-item-subtitle>
-                <div class="text-orange">{{item.tbv_mobile_contact_person}}</div>
+                <div class="text-blue">{{item.tbv_mobile_contact_person}}</div>
                 <v-list-item-subtitle class="mt-1">กรุณาเข้าก่อนเวลา</v-list-item-subtitle>
-                <div class="text-orange">{{item.tbv_end_datetime}}</div>
+                <div class="text-blue">{{item.tbv_end_datetime}}</div>
               </v-list-item-content>
               <v-list-item-avatar tile size="80" color>
                 <v-img

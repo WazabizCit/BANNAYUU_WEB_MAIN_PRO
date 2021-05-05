@@ -13,17 +13,17 @@
                 </v-list-item-title>
                 <v-divider></v-divider>
                 <v-list-item-subtitle class="mt-3">Code</v-list-item-subtitle>
-                <div class="text-orange">{{ item.scfi_code}}</div>
+                <div class="text-blue">{{ item.scfi_code}}</div>
                 <v-list-item-subtitle class="mt-1">วันออกบิล</v-list-item-subtitle>
-                <div class="text-orange">{{ item.date_from}}</div>
+                <div class="text-blue">{{ item.date_from}}</div>
                 <v-list-item-subtitle class="mt-1">ชำระก่อน</v-list-item-subtitle>
-                <div class="text-orange">{{ item.date_to}}</div>
+                <div class="text-blue">{{ item.date_to}}</div>
                 <v-list-item-subtitle class="mt-1">สถานะการชำระ</v-list-item-subtitle>
                 <div class="text-orange" v-if="item.workflow_id == null">รอชำระบิล</div>           
-                <div class="text-orange" v-else>{{item.workflow_name}}</div>
+                <div class="text-blue" v-else>{{item.workflow_name}}</div>
                 <v-divider class="mt-2"></v-divider>
                 <v-list-item-subtitle class="mt-3">จำนวนเงิน</v-list-item-subtitle>
-                <v-list-item-title class="headline mb-1 text-orange">{{item.payment_amount}}</v-list-item-title>
+                <v-list-item-title class="headline mb-1 text-blue">{{item.payment_amount}}</v-list-item-title>
                 <v-divider class="mt-2"></v-divider>
                 <v-btn
                   class="mt-3 mb-3"

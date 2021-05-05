@@ -12,7 +12,7 @@
         </v-col>
         <v-col cols="12">
           <v-form ref="form" v-model="valid">
-            <p class="text-center text-sub-title mb-0">กรุณากรอกรายละเอียด</p>
+            <p class="text-center text-sub-title mb-0 text-primary">กรุณากรอกรายละเอียด</p>
             <div class="mt-8">
               <v-text-field
                 class="mt-5"
@@ -59,7 +59,6 @@
         :txt_dialog_title="txt_dialog_title"
         @closeDialog="closeDialog"
       />
-      
     </v-container>
   </div>
 </template>
@@ -76,8 +75,7 @@ export default {
       txt_dialog_sub: "",
       form: {
         phonenumber: "",
-        tokenuser: "",
-        //uuiduser: "U2a9a887f26eb7200dd52e97a04c13d1b",
+        tokenuser: "",    
         uuiduser: "",
         firstname: "",
         lastname: "",
@@ -164,20 +162,22 @@ export default {
     Dialog_popup
   },
   mounted() {
-    liff
-      .init({
-        liffId: process.env.liffid_member        
-      })
-      .then(() => {
-        if (liff.isLoggedIn()) {
-          liff.getProfile().then(profile => {
-            //this.profileImg = profile.pictureUrl;
-            this.form.uuiduser = profile.userId;
-          });
-        } else {
-          liff.login();
-        }
-      });
+
+
+      liff
+        .init({
+          liffId: process.env.liffid_member
+        })
+        .then(() => {
+          if (liff.isLoggedIn()) {
+            liff.getProfile().then(profile => {
+              //this.profileImg = profile.pictureUrl;
+              this.form.uuiduser = profile.userId;
+            });
+          } else {
+            liff.login();
+          }
+        });
   }
 };
 </script>

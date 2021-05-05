@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-app  style="background-color:#f7f9f3; color:white">
+    <v-app  style="background-color:#e0e0e0; color:white">
      <!-- <Navbar v-if="this.$nuxt.$auth.loggedIn" /> -->
       <nuxt></nuxt>
     </v-app>

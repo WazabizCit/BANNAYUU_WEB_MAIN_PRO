@@ -19,14 +19,6 @@
           <v-card class="mx-auto mt-2" max-width="364" raised>
             <v-list-item class="mb-3" three-line>
               <v-list-item-content>
-                <v-list-item-subtitle>Code</v-list-item-subtitle>
-                <div class="text-orange">{{ item.hci_code }}</div>
-                <v-list-item-subtitle class="mt-1">เวลาที่แจ้ง</v-list-item-subtitle>
-                <div class="text-orange">{{ item.hci_datetime }}</div>
-                <v-list-item-subtitle class="mt-1">หัวเรื่อง</v-list-item-subtitle>
-                <div class="text-orange">{{ item.hci_header_text}}</div>
-                <v-list-item-subtitle class="mt-1">รายละเอียด</v-list-item-subtitle>
-                <div class="text-orange">{{ item.hci_detail_text}}</div>
                 <v-list-item-subtitle class="mt-1">รูปภาพ</v-list-item-subtitle>
                 <v-img
                   class="mt-1"
@@ -35,11 +27,20 @@
                   :src="getPhoto(item.img_complaint)"
                 ></v-img>
                 <v-img v-else height="250" :src="getPhotonull()"></v-img>
+                <v-list-item-subtitle class="mt-2">Code</v-list-item-subtitle>
+                <div class="text-blue">{{ item.hci_code }}</div>
+                <v-list-item-subtitle class="mt-1">เวลาที่แจ้ง</v-list-item-subtitle>
+                <div class="text-blue">{{ item.hci_datetime }}</div>
+                <v-list-item-subtitle class="mt-1">หัวเรื่อง</v-list-item-subtitle>
+                <div class="text-blue">{{ item.hci_header_text}}</div>
+                <v-list-item-subtitle class="mt-1">รายละเอียด</v-list-item-subtitle>
+                <div class="text-blue">{{ item.hci_detail_text}}</div>
+
                 <v-list-item-content>
                   <v-list-item-title class="h4">ข้อความจากเจ้าหน้าที่</v-list-item-title>
                   <v-list-item-subtitle class="mt-1">สถานะรับเรื่อง</v-list-item-subtitle>
                   <div v-if="item.hci_status != 'N'" class="text-success">ได้รับการตรวจสอบแล้ว</div>
-                  <div v-else class="text-success">ยังไม่ได้รับการตรวจสอบ</div>
+                  <div v-else class="text-orange">ยังไม่ได้รับการตรวจสอบ</div>
                   <v-list-item-subtitle class="mt-1">ข้อความ</v-list-item-subtitle>
                   <div v-if="item.hci_status != 'N'" class="text-success">{{item.hci_remark}}</div>
                   <div v-else class="text-success">-</div>
@@ -213,7 +214,7 @@ export default {
         })
         .then(res => {
           this.overlay = false;
-        
+
           if (res.data == null) return (this.status_show = true);
           if (res.data.length == 0) {
             this.status_show = true;
@@ -232,8 +233,8 @@ export default {
       this.dialog_status = obj.status_dialog;
     }
   },
-  mounted() {
-  
+  mounted() {  
+
     liff
       .init({
         liffId: process.env.liffid_appeal

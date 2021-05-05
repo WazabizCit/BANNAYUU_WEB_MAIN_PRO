@@ -20,19 +20,19 @@
             <v-list-item class="mb-3" three-line>
               <v-list-item-content>
                 <v-list-item-subtitle>Code</v-list-item-subtitle>
-                <div class="text-orange">{{ item.sos_code }}</div>
+                <div class="text-blue">{{ item.sos_code }}</div>
                 <v-list-item-subtitle class="mt-1">เวลาที่แจ้ง</v-list-item-subtitle>
-                <div class="text-orange">{{ item.sos_datetime }}</div>
+                <div class="text-blue">{{ item.sos_datetime }}</div>
 
                 <v-list-item-content>
                   <v-divider></v-divider>
                   <v-list-item-title class="h4 mt-4">ข้อความจากเจ้าหน้าที่</v-list-item-title>
-                  <v-list-item-subtitle class="mt-1">สถานะรับเรื่อง</v-list-item-subtitle>
+                  <v-list-item-subtitle class="mt-1">สถานะรับเรื่อง</v-list-item-subtitle> 
                   <div v-if="item.sos_status != 'N'" class="text-success">ได้รับการตรวจสอบแล้ว</div>
-                  <div v-else class="text-success">ยังไม่ได้รับการตรวจสอบ</div>
+                  <div v-else class="text-orange">ยังไม่ได้รับการตรวจสอบ</div>
                   <v-list-item-subtitle class="mt-1">ข้อความ</v-list-item-subtitle>
-                  <div v-if="item.sos_status != 'N'" class="text-success">{{item.sos_remark}}</div>
-                  <div v-else class="text-success">-</div>
+                  <div v-if="item.sos_status != 'N'" class="text-orange">{{item.sos_remark}}</div>
+                  <div v-else class="text-orange">-</div>
                 </v-list-item-content>
               </v-list-item-content>
             </v-list-item>
@@ -104,7 +104,6 @@
 import { mapActions, mapGetters } from "vuex";
 import Dialog_popup from "@/components/dialog_popup.vue";
 
-
 export default {
   data() {
     return {
@@ -154,7 +153,7 @@ export default {
               switch (res.message) {
                 case "success":
                   this.dialog_status_success = true;
-                //  socket.emit("send_sos", { company_id: res.data.company_id });
+                  //  socket.emit("send_sos", { company_id: res.data.company_id });
 
                   break;
                 default:
@@ -206,6 +205,7 @@ export default {
     }
   },
   mounted() {
+
 
     liff
       .init({

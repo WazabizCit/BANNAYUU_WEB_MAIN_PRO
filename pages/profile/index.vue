@@ -10,11 +10,16 @@
       <v-card class="mx-auto mt-5" max-width="434" tile>
         <v-card-title primary-title class="justify-center">
           <div slot="activator" @click="openDialogUpload">
-            <v-avatar size="180px" v-ripple v-if="img_user_profile == null" class="card_gray mb-3 mt-5">
+            <v-avatar
+              size="180px"
+              v-ripple
+              v-if="img_user_profile == null"
+              class="card_gray mb-3 mt-5"
+            >
               <span>click to add avatar</span>
             </v-avatar>
             <v-avatar size="150px" v-ripple v-else class="mb-3">
-              <img    :src="getPhoto(img_user_profile)" alt="avatar" />
+              <img :src="getPhoto(img_user_profile)" alt="avatar" />
             </v-avatar>
           </div>
         </v-card-title>
@@ -58,8 +63,7 @@
                 accept="image/*"
                 label="แนบไฟล์ภาพ"
                 prepend-icon="mdi-paperclip"
-                 :rules="uploadimgRules"
-              
+                :rules="uploadimgRules"
               ></v-file-input>
             </div>
           </v-form>
@@ -124,7 +128,7 @@ export default {
       dialog_qrcode: false,
       size: 120,
       image_user: null,
-      img_user_profile:null,
+      img_user_profile: null,
       home_line_code: "",
       home_line_first_name: "null",
       home_line_last_name: "",
@@ -134,7 +138,7 @@ export default {
     };
   },
   methods: {
-     getPhoto(item) {
+    getPhoto(item) {
       return `${this.$axios.defaults.baseURL}api/getimage/user/${item}`;
     },
     openDialogUpload() {
@@ -157,7 +161,7 @@ export default {
           m_uuiduser: this.uuiduser,
           m_company_id: process.env.company_id
         })
-        .then(res => {    
+        .then(res => {
           this.overlay = false;
           this.img_user_profile = res.data.img_user;
           this.home_line_code = res.data.home_line_code;
@@ -167,7 +171,6 @@ export default {
           this.home_address = res.data.home_address;
         })
         .catch(error => {
-         
           this.overlay = false;
         })
         .finally();
@@ -211,21 +214,25 @@ export default {
     }
   },
   mounted() {
-  liff
-      .init({
-        liffId: process.env.liffid_profile
-      })
-      .then(() => {
-        if (liff.isLoggedIn()) {
-          liff.getProfile().then(profile => {
-            this.uuiduser = profile.userId;
-            this.requestData();
-            //this.profileImg = profile.pictureUrl;
-          });
-        } else {
-          liff.login();
-        }
-      });
+
+
+    liff
+        .init({
+          liffId: process.env.liffid_profile
+        })
+        .then(() => {
+          if (liff.isLoggedIn()) {
+            liff.getProfile().then(profile => {
+              this.uuiduser = profile.userId;
+              this.requestData();
+              //this.profileImg = profile.pictureUrl;
+            });
+          } else {
+            liff.login();
+          }
+        });
+
+    
   },
   components: {
     QrcodeVue,

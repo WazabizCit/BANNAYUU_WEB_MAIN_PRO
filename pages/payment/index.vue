@@ -50,9 +50,12 @@ export default {
     List_bill,
     List_bill_history
   },
-  methods: {},
-  created() {  
-   
+  methods: {
+    
+  },
+  created() {
+
+
     liff
       .init({
         liffId: process.env.liffid_payment

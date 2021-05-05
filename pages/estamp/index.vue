@@ -11,15 +11,15 @@
             <v-list-item class="mb-3" three-line>
               <v-list-item-content>
                 <v-list-item-subtitle>ชื่อผู้มาติดต่อ</v-list-item-subtitle>
-                <div class="text-orange">{{item.contact_name}}</div>
+                <div class="text-blue">{{item.contact_name}}</div>
                 <v-list-item-subtitle class="mt-1">Code</v-list-item-subtitle>
-                <div class="text-orange">{{item.card_code}}</div>
+                <div class="text-blue">{{item.card_code}}</div>
                 <v-list-item-subtitle class="mt-1">รูปแบบผู้มาติดต่อ</v-list-item-subtitle>
-                <div class="text-orange">{{item.card_code_status}}</div>
-                     <v-list-item-subtitle class="mt-1">เวลาเข้า</v-list-item-subtitle>
-                <div class="text-orange">{{item.parking_in_datetime}}</div>
+                <div class="text-blue">{{item.card_code_status}}</div>
+                <v-list-item-subtitle class="mt-1">เวลาเข้า</v-list-item-subtitle>
+                <div class="text-blue">{{item.parking_in_datetime}}</div>
                 <v-list-item-subtitle class="mt-1">สถานะประทับตรา</v-list-item-subtitle>
-                <div class="text-orange">{{item.estamp_name}}</div>
+                <div class="text-blue">{{item.estamp_name}}</div>
               </v-list-item-content>
               <v-icon class="v-icon-details-star">mdi-card-account-details-star</v-icon>
             </v-list-item>
@@ -127,7 +127,8 @@ export default {
     }
   },
   mounted() {
-    
+
+
     liff
       .init({
         liffId: process.env.liffid_estamp
@@ -143,7 +144,6 @@ export default {
           liff.login();
         }
       });
-      
   },
   components: {
     Dialog_estamp,

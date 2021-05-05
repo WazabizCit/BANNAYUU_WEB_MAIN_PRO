@@ -96,8 +96,7 @@ export default {
   },
 
   mounted() {
-    // this.uuiduser = "U2a9a887f26eb7200dd52e97a04c13d1b";
-    // this.setdata_user();
+
     liff
       .init({
         liffId: process.env.liffid_bookgin
