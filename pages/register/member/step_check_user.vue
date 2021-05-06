@@ -162,8 +162,6 @@ export default {
     Dialog_popup
   },
   mounted() {
-
-
       liff
         .init({
           liffId: process.env.liffid_member

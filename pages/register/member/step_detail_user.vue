@@ -175,6 +175,8 @@ export default {
             this.$nuxt.$loading.finish();
             break;
 
+            
+
           default:
             this.dialog_status = true;
             this.txt_dialog_sub = "ระบบผิดพลาด";

@@ -151,6 +151,12 @@ export default {
               this.dialog_status_boxsuccess = true;
               break;
 
+            case "notfound_uuiduser":
+              this.dialog_status = true;
+              this.txt_dialog_title = "แจ้งเตือน";
+              this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+              break;
+
             default:
               this.dialog_status = true;
               this.txt_dialog_title = "แจ้งเตือน";
@@ -196,8 +202,6 @@ export default {
     }
   },
   mounted() {
-
-
     liff
       .init({
         liffId: process.env.liffid_box
@@ -207,7 +211,6 @@ export default {
           liff.getProfile().then(profile => {
             this.uuiduser = profile.userId;
             this.requestData();
-
           });
         } else {
           liff.login();

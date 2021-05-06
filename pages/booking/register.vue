@@ -108,7 +108,13 @@
               </v-time-picker>
             </v-dialog>
 
-            <v-btn rounded color="primary" dark class="w-100 mt-4 my-btn" @click="next">ยืนยันลงทะเบียน</v-btn>
+            <v-btn
+              rounded
+              color="primary"
+              dark
+              class="w-100 mt-4 my-btn"
+              @click="next"
+            >ยืนยันลงทะเบียน</v-btn>
 
             <div class="mt-5 mb-5 w-100 text-orange text-center my-btn" @click="back">ย้อนกลับ</div>
           </v-form>
@@ -134,7 +140,7 @@ export default {
       valid: false,
       dialog_status: false,
       txt_dialog_title: "",
-      txt_dialog_sub: "",    
+      txt_dialog_sub: "",
       uuiduser: this.getInfoBooking().uuiduser,
       pickerdate: new Date().toISOString().substr(0, 10),
       nowDate: new Date().toISOString().slice(0, 10),
@@ -182,6 +188,12 @@ export default {
             case "success":
               this.$nuxt.$loading.finish();
               this.$router.push("/booking/reg_success");
+              break;
+
+            case "notfound_uuiduser":
+              this.dialog_status = true;
+              this.txt_dialog_title = "แจ้งเตือน";
+              this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
               break;
 
             default:

@@ -11,7 +11,7 @@
           <v-card-actions class="mt-7">
             <v-spacer></v-spacer>
             <v-btn color="success" @click="send_data_estamp">ยืนยัน</v-btn>
-            <v-btn color="error"  @click="closeDialogestamp">ปิด</v-btn>
+            <v-btn color="error" @click="closeDialogestamp">ปิด</v-btn>
             <v-spacer></v-spacer>
           </v-card-actions>
         </v-card>
@@ -107,19 +107,25 @@ export default {
 
             break;
 
+          case "notfound_uuiduser":
+            this.dialog_status = true;
+            this.txt_dialog_title = "แจ้งเตือน";
+            this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+            break;
+
           default:
             this.dialog_status = true;
             this.overlay = false;
+            this.txt_dialog_title = "แจ้งเตือน";
             this.txt_dialog_sub = "ระบบผิดพลาด";
-            this.txt_dialog_title = "ระบบผิดพลาด";
 
             break;
         }
       } catch (e) {
         this.dialog_status = true;
         this.overlay = false;
+        this.txt_dialog_title = "แจ้งเตือน";
         this.txt_dialog_sub = "ระบบผิดพลาด";
-        this.txt_dialog_title = "ระบบผิดพลาด";
       }
     }
   },

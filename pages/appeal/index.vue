@@ -190,6 +190,15 @@ export default {
             case "success":
               this.dialog_status_success = true;
               break;
+
+            case "notfound_uuiduser":
+              this.dialog_status = true;
+              this.txt_dialog_title = "แจ้งเตือน";
+              this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+              break;
+
+              
+
             default:
               this.dialog_status = true;
               this.txt_dialog_title = "แจ้งเตือน";
@@ -233,8 +242,7 @@ export default {
       this.dialog_status = obj.status_dialog;
     }
   },
-  mounted() {  
-
+  mounted() {
     liff
       .init({
         liffId: process.env.liffid_appeal

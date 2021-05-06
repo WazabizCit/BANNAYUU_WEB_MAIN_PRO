@@ -19,7 +19,7 @@
                 <v-list-item-subtitle class="mt-1">ชำระก่อน</v-list-item-subtitle>
                 <div class="text-blue">{{ item.date_to}}</div>
                 <v-list-item-subtitle class="mt-1">สถานะการชำระ</v-list-item-subtitle>
-                <div class="text-orange" v-if="item.workflow_id == null">รอชำระบิล</div>           
+                <div class="text-orange" v-if="item.workflow_id == null">รอชำระบิล</div>
                 <div class="text-blue" v-else>{{item.workflow_name}}</div>
                 <v-divider class="mt-2"></v-divider>
                 <v-list-item-subtitle class="mt-3">จำนวนเงิน</v-list-item-subtitle>
@@ -124,8 +124,8 @@ import DialogAttachfile from "@/components/payment_component/dialog_attachfile";
 import Dialog_popup from "@/components/dialog_popup.vue";
 
 export default {
-    props: {   
-    uuiduser: "",  
+  props: {
+    uuiduser: ""
   },
   data: () => ({
     dialog_status: false,
@@ -138,7 +138,7 @@ export default {
     dialog_select_pay: false,
     overlay: false,
     status_show: false,
-    list_items: [],   
+    list_items: []
   }),
   methods: {
     closeDialog(obj) {
@@ -186,6 +186,12 @@ export default {
           this.dialog_status_payment_success = true;
           break;
 
+        case "notfound_uuiduser":
+          this.dialog_status = true;
+          this.txt_dialog_title = "แจ้งเตือน";
+          this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+          break;
+
         default:
           this.dialog_status = true;
           this.txt_dialog_title = "แจ้งเตือน";
@@ -216,7 +222,7 @@ export default {
   },
   mounted() {
     this.requestData();
-  },  
+  },
 
   components: {
     DialogPayment,

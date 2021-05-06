@@ -196,6 +196,13 @@ export default {
             case "success":
               this.dialog_status_success = true;
               break;
+
+            case "notfound_uuiduser":
+              this.dialog_status = true;
+              this.txt_dialog_title = "แจ้งเตือน";
+              this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+              break;
+
             default:
               this.dialog_status = true;
               this.txt_dialog_title = "แจ้งเตือน";
@@ -215,24 +222,21 @@ export default {
   },
   mounted() {
 
-
     liff
-        .init({
-          liffId: process.env.liffid_profile
-        })
-        .then(() => {
-          if (liff.isLoggedIn()) {
-            liff.getProfile().then(profile => {
-              this.uuiduser = profile.userId;
-              this.requestData();
-              //this.profileImg = profile.pictureUrl;
-            });
-          } else {
-            liff.login();
-          }
-        });
-
-    
+      .init({
+        liffId: process.env.liffid_profile
+      })
+      .then(() => {
+        if (liff.isLoggedIn()) {
+          liff.getProfile().then(profile => {
+            this.uuiduser = profile.userId;
+            this.requestData();
+            //this.profileImg = profile.pictureUrl;
+          });
+        } else {
+          liff.login();
+        }
+      });
   },
   components: {
     QrcodeVue,

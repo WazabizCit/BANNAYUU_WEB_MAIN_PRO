@@ -27,7 +27,7 @@
                 <v-list-item-content>
                   <v-divider></v-divider>
                   <v-list-item-title class="h4 mt-4">ข้อความจากเจ้าหน้าที่</v-list-item-title>
-                  <v-list-item-subtitle class="mt-1">สถานะรับเรื่อง</v-list-item-subtitle> 
+                  <v-list-item-subtitle class="mt-1">สถานะรับเรื่อง</v-list-item-subtitle>
                   <div v-if="item.sos_status != 'N'" class="text-success">ได้รับการตรวจสอบแล้ว</div>
                   <div v-else class="text-orange">ยังไม่ได้รับการตรวจสอบ</div>
                   <v-list-item-subtitle class="mt-1">ข้อความ</v-list-item-subtitle>
@@ -156,6 +156,13 @@ export default {
                   //  socket.emit("send_sos", { company_id: res.data.company_id });
 
                   break;
+
+                case "notfound_uuiduser":
+                  this.dialog_status = true;
+                  this.txt_dialog_title = "แจ้งเตือน";
+                  this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+                  break;
+
                 default:
                   this.dialog_status = true;
                   this.txt_dialog_title = "แจ้งเตือน";
