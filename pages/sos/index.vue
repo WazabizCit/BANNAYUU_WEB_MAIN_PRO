@@ -21,8 +21,17 @@
               <v-list-item-content>
                 <v-list-item-subtitle>Code</v-list-item-subtitle>
                 <div class="text-blue">{{ item.sos_code }}</div>
+                <v-img
+                  class="mt-1"
+                  v-if="item.img_sos != null"
+                  height="250"
+                  :src="getPhoto(item.img_sos)"
+                ></v-img>
+                <v-img v-else height="250" :src="getPhotonull()"></v-img>
                 <v-list-item-subtitle class="mt-1">เวลาที่แจ้ง</v-list-item-subtitle>
                 <div class="text-blue">{{ item.sos_datetime }}</div>
+                <v-list-item-subtitle class="mt-1">หมายเหตุ</v-list-item-subtitle>
+                <div class="text-blue">{{ item.sos_detail_text }}</div>
 
                 <v-list-item-content>
                   <v-divider></v-divider>
@@ -48,6 +57,15 @@
         <v-card>
           <v-card-title>ต้องการแจ้งเตือนฉุกเฉินใช่หรือไม่ ?</v-card-title>
           <v-form ref="form" lazy-validation>
+            <v-text-field label="หมายเหตุ" v-model="sos_detail_text"></v-text-field>
+            <v-file-input
+              v-model="image_sos"
+              type="file"
+              accept="image/*"
+              label="แนบไฟล์ภาพ"
+              prepend-icon="mdi-paperclip"
+            ></v-file-input>
+
             <v-card-actions class="mt-5">
               <v-spacer></v-spacer>
               <v-btn color="success" class="mr-4" @click="confirm_data">ยืนยัน</v-btn>
@@ -123,6 +141,12 @@ export default {
     };
   },
   methods: {
+    getPhoto(item) {
+      return `${this.$axios.defaults.baseURL}api/getimage/sos/${item}`;
+    },
+    getPhotonull() {
+      return `${this.$axios.defaults.baseURL}api/getimage/noimage.png`;
+    },
     btn_write_sos() {
       this.dialog_write_sos = false;
       this.sos_header_text = "";
@@ -137,44 +161,43 @@ export default {
           this.overlay = true;
           this.dialog_write_sos = false;
 
-          this.$axios
-            .$post("actionsos/send_sos", {
-              m_uuiduser: this.uuiduser,
-              m_sos_header_text: this.sos_header_text,
-              m_sos_detail_text: this.sos_detail_text,
-              m_company_id: process.env.company_id
-            })
-            .then(res => {
-              this.overlay = false;
-              this.sos_header_text = "";
-              this.sos_detail_text = "";
-              this.requestData();
+          let formData = new FormData();
+          formData.append("keyfile", this.image_sos);
+          formData.append("m_uuiduser", this.uuiduser);
+          formData.append("m_sos_header_text", this.sos_header_text);
+          formData.append("m_sos_detail_text", this.sos_detail_text);
+          formData.append("m_company_id", process.env.company_id);
 
-              switch (res.message) {
-                case "success":
-                  this.dialog_status_success = true;
-                  //  socket.emit("send_sos", { company_id: res.data.company_id });
+          let res_data = await this.$axios.$post(
+            "actionsos/send_sos",
+            formData
+          );
 
-                  break;
+          this.overlay = false;
+          this.image_sos = null;
+          this.sos_header_text = "";
+          this.sos_detail_text = "";
+          this.requestData();
 
-                case "notfound_uuiduser":
-                  this.dialog_status = true;
-                  this.txt_dialog_title = "แจ้งเตือน";
-                  this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
-                  break;
+          switch (res_data.message) {
+            case "success":
+              this.dialog_status_success = true;
+              //  socket.emit("send_sos", { company_id: res.data.company_id });
 
-                default:
-                  this.dialog_status = true;
-                  this.txt_dialog_title = "แจ้งเตือน";
-                  this.txt_dialog_sub = "ระบบผิดพลาด";
-                  break;
-              }
-            })
-            .catch(error => {
-              this.overlay = false;
-              this.status_show = false;
-            })
-            .finally();
+              break;
+
+            case "notfound_uuiduser":
+              this.dialog_status = true;
+              this.txt_dialog_title = "แจ้งเตือน";
+              this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+              break;
+
+            default:
+              this.dialog_status = true;
+              this.txt_dialog_title = "แจ้งเตือน";
+              this.txt_dialog_sub = "ระบบผิดพลาด";
+              break;
+          }
         } catch (error) {
           this.dialog_status = true;
           this.txt_dialog_title = "แจ้งเตือน";

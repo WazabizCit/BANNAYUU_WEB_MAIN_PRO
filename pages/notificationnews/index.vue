@@ -14,6 +14,15 @@
               <v-icon large left>mdi-newspaper-variant-outline</v-icon>
               <div>วันที่ประกาศ {{item.hni_start_datetime}}</div>
             </v-card-title>
+
+            <v-img
+              class="mt-1"
+              v-if="item.image_hni != null"
+              height="250"
+              :src="getPhoto(item.image_hni)"
+            ></v-img>
+            <v-img v-else height="250" :src="getPhotonull()"></v-img>
+
             <v-card-text>
               <p class="title text--primary">{{item.hni_header_text}}</p>
               <div class="text--primary">{{item.hni_detail_text}}</div>
@@ -63,6 +72,12 @@ export default {
     };
   },
   methods: {
+    getPhoto(item) {
+      return `${process.env.base_url_admin}${item}`;
+    },
+    getPhotonull() {
+      return `${this.$axios.defaults.baseURL}api/getimage/noimage.png`;
+    },
     openlink(link) {
       window.open(link, "_blank");
     },
@@ -93,7 +108,6 @@ export default {
   },
   mounted() {
 
-
     liff
       .init({
         liffId: process.env.liffid_notification
@@ -103,7 +117,6 @@ export default {
           liff.getProfile().then(profile => {
             this.uuiduser = profile.userId;
             this.requestData();
-
           });
         } else {
           liff.login();
