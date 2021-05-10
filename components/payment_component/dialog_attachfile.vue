@@ -14,14 +14,16 @@
               :rules="uploadimgRules"
             ></v-file-input>
 
-            <v-select v-model="select_bank"  :item-text="'name'" :items="items_bank" label="เลือกธนาคาร" prepend-icon="mdi-bank"  :rules="selectbankRules">
+            <v-select
+              v-model="select_bank"
+              :item-text="'name'"
+              :items="items_bank"
+              label="เลือกธนาคาร"
+              prepend-icon="mdi-bank"
+              :rules="selectbankRules"
+            >
               <template slot="item" slot-scope="data">
-                  <v-img
-                  width="30" height="30"
-                  :src="data.item.src"                      
-                  contain
-                  max-width="60"
-                ></v-img>
+                <v-img width="30" height="30" :src="data.item.src" contain max-width="60"></v-img>
                 {{data.item.name}}
               </template>
             </v-select>
@@ -78,7 +80,7 @@
             <v-card-actions class="mt-5">
               <v-spacer></v-spacer>
               <v-btn color="success" class="mr-4" @click="confirm_data">ยืนยัน</v-btn>
-              <v-btn color="error" class="mr-4" @click="closeDialogAttachfile">ยกเลิก</v-btn>
+              <v-btn color="error" class="mr-4" @click="closeDialogAttachfile('close')">ยกเลิก</v-btn>
             </v-card-actions>
           </v-card-text>
         </v-form>
@@ -108,21 +110,36 @@ export default {
   data: () => ({
     select_bank: null,
     items_bank: [
-      { name: "ธนาคารกรุงเทพ",src: require('@/assets/img_bank/BBL.png') },
-      { name: "ธนาคารกสิกรไทย", src: require('@/assets/img_bank/KBANK.png')},
-      { name: "ธนาคารกรุงไทย", src: require('@/assets/img_bank/KTB.png')},
-      { name: "ธนาคารทหารไทย",src: require('@/assets/img_bank/TMB.png') },
-      { name: "ธนาคารไทยพาณิชย์", src: require('@/assets/img_bank/SCB.png') },
-      { name: "ธนาคารกรุงศรีอยุธยา", src: require('@/assets/img_bank/BAY.png') },
-      { name: "ธนาคารเกียรตินาคินภัทร", src: require('@/assets/img_bank/KKP.png') },
-      { name: "ธนาคารซีไอเอ็มบีไทย", src: require('@/assets/img_bank/CIMBT.png')},
-      { name: "ธนาคารทิสโก้", src: require('@/assets/img_bank/TISCO.png')},
-      { name: "ธนาคารธนชาต",src: require('@/assets/img_bank/TBANK.png') },
-      { name: "ธนาคารยูโอบี", src: require('@/assets/img_bank/UOBT.png') },
-      { name: "ธนาคารแลนด์แอนด์ เฮ้าส์",src: require('@/assets/img_bank/LHFG.png') },
-      { name: "ธนาคารออมสิน", src: require('@/assets/img_bank/GSB.png') },
-      { name: "ธนาคารอาคารสงเคราะห์", src: require('@/assets/img_bank/GHB.png')},  
-      { name: "อื่นๆ", src: require('@/assets/img_bank/bank_other.png') }
+      { name: "ธนาคารกรุงเทพ", src: require("@/assets/img_bank/BBL.png") },
+      { name: "ธนาคารกสิกรไทย", src: require("@/assets/img_bank/KBANK.png") },
+      { name: "ธนาคารกรุงไทย", src: require("@/assets/img_bank/KTB.png") },
+      { name: "ธนาคารทหารไทย", src: require("@/assets/img_bank/TMB.png") },
+      { name: "ธนาคารไทยพาณิชย์", src: require("@/assets/img_bank/SCB.png") },
+      {
+        name: "ธนาคารกรุงศรีอยุธยา",
+        src: require("@/assets/img_bank/BAY.png")
+      },
+      {
+        name: "ธนาคารเกียรตินาคินภัทร",
+        src: require("@/assets/img_bank/KKP.png")
+      },
+      {
+        name: "ธนาคารซีไอเอ็มบีไทย",
+        src: require("@/assets/img_bank/CIMBT.png")
+      },
+      { name: "ธนาคารทิสโก้", src: require("@/assets/img_bank/TISCO.png") },
+      { name: "ธนาคารธนชาต", src: require("@/assets/img_bank/TBANK.png") },
+      { name: "ธนาคารยูโอบี", src: require("@/assets/img_bank/UOBT.png") },
+      {
+        name: "ธนาคารแลนด์แอนด์ เฮ้าส์",
+        src: require("@/assets/img_bank/LHFG.png")
+      },
+      { name: "ธนาคารออมสิน", src: require("@/assets/img_bank/GSB.png") },
+      {
+        name: "ธนาคารอาคารสงเคราะห์",
+        src: require("@/assets/img_bank/GHB.png")
+      },
+      { name: "อื่นๆ", src: require("@/assets/img_bank/bank_other.png") }
     ],
     image_attachfile: null,
     overlay: false,
@@ -140,13 +157,13 @@ export default {
     set_default_value() {
       (this.txt_remark = ""), (this.image_attachfile = null);
     },
-    closeDialogAttachfile() {
+    closeDialogAttachfile(status) {
       this.set_default_value();
       let status_dialog_attachfile = this.dialog_attachfile;
       this.$emit(
         "closeDialogAttachfile",
         (this.status_dialog_attachfile = false),
-        this.status_senddata
+        status
       );
     },
 
@@ -161,14 +178,13 @@ export default {
       this.pickerdate = datepick;
     },
     async confirm_data() {
- 
       if (this.$refs.form.validate()) {
         try {
           this.overlay = true;
           this.dialog_write_appeal = false;
           let formData = new FormData();
           formData.append("keyfile", this.image_attachfile);
-          formData.append("m_uuiduser", this.uuiduser);        
+          formData.append("m_uuiduser", this.uuiduser);
           formData.append(
             "m_payment_event_id",
             this.obj_select.payment_event_id
@@ -190,25 +206,20 @@ export default {
 
           switch (res_data.message) {
             case "success":
-              this.status_senddata = "success";
-              this.closeDialogAttachfile();
+              this.closeDialogAttachfile("success");
               break;
+
             default:
-              this.status_senddata = "fail";
-              this.closeDialogAttachfile();
+              this.closeDialogAttachfile("fail");
               break;
           }
         } catch (error) {
-          this.status_senddata = "fail";
-          this.closeDialogAttachfile();
+          this.closeDialogAttachfile("fail");
         }
       }
-    },
-     
+    }
   },
   components: {},
-  mounted() {
-  
-  }
+  mounted() {}
 };
 </script>

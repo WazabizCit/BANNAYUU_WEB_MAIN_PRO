@@ -75,7 +75,7 @@ export default {
   methods: {
     shareViaWebShare(textqrcode) {
       window.open(
-        `line://msg/text/https://bannayuu.web.app/genqrcode?qrcode=${textqrcode}`,
+        `line://msg/text/https://citbanayuu.web.app/genqrcode?qrcode=${textqrcode}`,
         "_blank"
       );
     },

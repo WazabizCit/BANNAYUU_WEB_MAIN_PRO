@@ -19,7 +19,8 @@
                 <v-list-item-subtitle class="mt-1">เวลาเข้า</v-list-item-subtitle>
                 <div class="text-blue">{{item.parking_in_datetime}}</div>
                 <v-list-item-subtitle class="mt-1">สถานะประทับตรา</v-list-item-subtitle>
-                <div class="text-blue">{{item.estamp_name}}</div>
+                <div v-if="item.estamp_flag == 'Y'" class="text-success">{{item.estamp_name}}</div>
+                <div v-else class="text-orange">{{item.estamp_name}}</div>
               </v-list-item-content>
               <v-icon class="v-icon-details-star">mdi-card-account-details-star</v-icon>
             </v-list-item>
@@ -108,8 +109,6 @@ export default {
           } else {
             this.items_list = res.data;
             this.status_show = false;
-
-            // console.log(res.data);
           }
         })
         .catch(error => {
@@ -127,7 +126,6 @@ export default {
     }
   },
   mounted() {
-
 
     liff
       .init({

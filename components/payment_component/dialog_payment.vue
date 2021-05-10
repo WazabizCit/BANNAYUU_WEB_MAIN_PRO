@@ -75,7 +75,7 @@
               @click="btn_payment"
             >ชำระเงิน {{this.obj_select.payment_amount}} บาท</v-btn>
             <v-spacer></v-spacer>
-            <v-btn color="error" class="mr-4" @click="closeDialogPayment">ยกเลิก</v-btn>
+            <v-btn color="error" class="mr-4" @click="closeDialogPayment('close')">ยกเลิก</v-btn>
           </v-card-actions>
         </v-card>
       </v-form>
@@ -134,12 +134,12 @@ export default {
     closeDialog(obj) {
       this.dialog_status = obj.status_dialog;
     },
-    closeDialogPayment() {
+    closeDialogPayment(status) {
       let status_dialog_payment = this.dialog_payment;
       this.$emit(
         "closeDialogPayment",
         (this.status_dialog_payment = false),
-        this.status_senddata
+        status
       );
     },
     async btn_payment() {
@@ -156,34 +156,30 @@ export default {
                   m_uuiduser: this.uuiduser,
                   m_scfi_code: this.obj_select.scfi_code,
                   m_payment_event_id: this.obj_select.payment_event_id,
-                  m_company_id : process.env.company_id
+                  m_company_id: process.env.company_id
                 })
                 .then(res => {
                   this.set_default_value();
                   this.overlay = false;
                   switch (res.message) {
                     case "success":
-                      this.status_senddata = "success";
-                      this.closeDialogPayment();
+                      this.closeDialogPayment("success");
                       break;
                     default:
-                      this.status_senddata = "fail";
-                      this.closeDialogPayment();
+                      this.closeDialogPayment("fail");
                       break;
                   }
                 })
                 .catch(error => {
                   this.overlay = false;
-                  this.status_senddata = "fail";
-                  this.closeDialogPayment();
+                  this.closeDialogPayment("fail");
                 })
                 .finally();
               break;
 
             default:
               this.overlay = false;
-              this.status_senddata = "fail";
-              this.closeDialogPayment();
+              this.closeDialogPayment("fail");
               break;
           }
         });

@@ -186,10 +186,7 @@ export default {
           this.dialog_status_payment_success = true;
           break;
 
-        case "notfound_uuiduser":
-          this.dialog_status = true;
-          this.txt_dialog_title = "แจ้งเตือน";
-          this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+        case "close":
           break;
 
         default:
@@ -210,6 +207,9 @@ export default {
         case "success":
           this.requestData();
           this.dialog_status_payment_success = true;
+          break;
+
+        case "close":
           break;
 
         default:
