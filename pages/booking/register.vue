@@ -181,7 +181,9 @@ export default {
             m_tbv_contact_person: this.visitor_name,
             m_tbv_mobile_contact_person: this.phonenumber,
             m_tbv_detail: this.remark,
-            m_tbv_start_datetime: `${this.pickerdate} ${this.pickertime}`
+            m_tbv_start_datetime: `${this.pickerdate} ${this.pickertime}`,
+            m_company_id: process.env.company_id,
+            m_promotion: process.env.promotion_code
           });
 
           switch (response.message) {
@@ -191,8 +193,23 @@ export default {
               break;
 
             case "notfound_uuiduser":
+              this.$nuxt.$loading.finish();
               this.dialog_status = true;
               this.txt_dialog_title = "แจ้งเตือน";
+              this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+              break;
+
+            case "expire_date_fail":
+              this.$nuxt.$loading.finish();
+              this.dialog_status = true;
+              this.txt_dialog_title = "แจ้งเตือนหมดอายุ";
+              this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+              break;
+
+            case "promotion_fail":
+              this.$nuxt.$loading.finish();
+              this.dialog_status = true;
+              this.txt_dialog_title = "แจ้งเตือนโปรโมชั่นไม่ถูกต้อง";
               this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
               break;
 
@@ -202,6 +219,7 @@ export default {
               this.txt_dialog_title = "ระบบผิดพลาด";
               this.$nuxt.$loading.finish();
               break;
+              
           }
         } catch (e) {
           this.dialog_status = true;

@@ -114,6 +114,12 @@
         :txt_dialog_title="txt_dialog_title"
         @closeDialog="closeDialog"
       />
+
+      <v-row>
+        <v-col cols="12">
+          <Card_close_process :status_close_process="status_close_process" />
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
@@ -122,12 +128,14 @@
 import DialogPayment from "@/components/payment_component/dialog_payment";
 import DialogAttachfile from "@/components/payment_component/dialog_attachfile";
 import Dialog_popup from "@/components/dialog_popup.vue";
+import Card_close_process from "@/components/closeprocess_component/card_close_process";
 
 export default {
   props: {
     uuiduser: ""
   },
   data: () => ({
+    status_close_process: false,
     dialog_status: false,
     txt_dialog_title: "",
     txt_dialog_sub: "",
@@ -149,7 +157,8 @@ export default {
       this.$axios
         .$post("actionpayment/getlistbill", {
           m_uuiduser: this.uuiduser,
-          m_company_id: process.env.company_id
+          m_company_id: process.env.company_id,
+          m_promotion: process.env.promotion_code
         })
         .then(res => {
           this.overlay = false;
@@ -163,7 +172,8 @@ export default {
         })
         .catch(error => {
           this.overlay = false;
-          this.status_show = true;
+          this.list_items = [];
+          this.status_close_process = true;
         })
         .finally();
     },
@@ -180,16 +190,39 @@ export default {
     },
     closeDialogPayment(obj, status) {
       this.dialog_payment = obj;
+
       switch (status) {
         case "success":
           this.requestData();
           this.dialog_status_payment_success = true;
           break;
 
+        case "notfound_uuiduser":
+          this.requestData();
+          this.dialog_status = true;
+          this.txt_dialog_title = "แจ้งเตือน";
+          this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+          break;
+
+        case "expire_date_fail":
+          this.requestData();
+          this.dialog_status = true;
+          this.txt_dialog_title = "แจ้งเตือนหมดอายุ";
+          this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+          break;
+
+        case "promotion_fail":
+          this.requestData();
+          this.dialog_status = true;
+          this.txt_dialog_title = "แจ้งเตือนโปรโมชั่นไม่ถูกต้อง";
+          this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+          break;
+
         case "close":
           break;
 
         default:
+          this.requestData();
           this.dialog_status = true;
           this.txt_dialog_title = "แจ้งเตือน";
           this.txt_dialog_sub = "ระบบผิดพลาด";
@@ -209,10 +242,32 @@ export default {
           this.dialog_status_payment_success = true;
           break;
 
+        case "notfound_uuiduser":
+          this.requestData();
+          this.dialog_status = true;
+          this.txt_dialog_title = "แจ้งเตือน";
+          this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+          break;
+
+        case "expire_date_fail":
+          this.requestData();
+          this.dialog_status = true;
+          this.txt_dialog_title = "แจ้งเตือนหมดอายุ";
+          this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+          break;
+
+        case "promotion_fail":
+          this.requestData();
+          this.dialog_status = true;
+          this.txt_dialog_title = "แจ้งเตือนโปรโมชั่นไม่ถูกต้อง";
+          this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+          break;
+
         case "close":
           break;
 
         default:
+          this.requestData();
           this.dialog_status = true;
           this.txt_dialog_title = "แจ้งเตือน";
           this.txt_dialog_sub = "ระบบผิดพลาด";
@@ -227,7 +282,8 @@ export default {
   components: {
     DialogPayment,
     DialogAttachfile,
-    Dialog_popup
+    Dialog_popup,
+    Card_close_process
   }
 };
 </script>

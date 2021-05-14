@@ -77,8 +77,8 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     //baseURL: "https://35824214565b.jp.ngrok.io/"
-    //baseURL: "http://127.0.0.1:8504/"
-    baseURL: "https://cit.bannayuu.com/apiline/"
+    baseURL: "http://127.0.0.1:8504/"
+    //baseURL: "https://cit.bannayuu.com/apiline/"
   },
 
 

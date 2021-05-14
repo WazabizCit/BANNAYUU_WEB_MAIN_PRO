@@ -52,6 +52,15 @@
       <v-overlay :value="overlay">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-overlay>
+
+      <v-row>
+        <v-col  cols="12"></v-col>
+      </v-row>
+      <v-row>
+        <v-col  cols="12">
+          <Card_close_process :status_close_process="status_close_process" />
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
@@ -60,9 +69,11 @@
 import QrcodeVue from "qrcode.vue";
 import DialogQrcode from "@/components/booking_component/dialog_qrcode";
 import { mapActions, mapGetters } from "vuex";
+import Card_close_process from "@/components/closeprocess_component/card_close_process";
 
 export default {
   data: () => ({
+    status_close_process: false,
     overlay: false,
     uuiduser: "",
     status_show: false,
@@ -86,7 +97,9 @@ export default {
       this.overlay = true;
       this.$axios
         .$post("booking/history", {
-          m_uuiduser: this.getInfoBooking().uuiduser
+          m_uuiduser: this.getInfoBooking().uuiduser,
+          m_company_id: process.env.company_id,
+          m_promotion: process.env.promotion_code
         })
         .then(res => {
           if (res.data.length == 0) {
@@ -99,7 +112,7 @@ export default {
           }
         })
         .catch(error => {
-          this.status_show = true;
+          this.status_close_process = true;
           this.overlay = false;
         })
         .finally();
@@ -117,7 +130,8 @@ export default {
   },
   components: {
     QrcodeVue,
-    DialogQrcode
+    DialogQrcode,
+    Card_close_process
   }
 };
 </script>

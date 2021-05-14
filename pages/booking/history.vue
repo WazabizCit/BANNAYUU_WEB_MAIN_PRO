@@ -8,9 +8,10 @@
       <v-row>
         <v-col class="mt-5" cols="12"></v-col>
       </v-row>
-      <v-btn class dark large color="orange" fixed right bottom @click="back">ย้อนกลับ</v-btn>
+      <!-- <v-btn hidden class dark large color="orange" fixed right bottom @click="back">ย้อนกลับ</v-btn> -->
     </div>
   </v-container>
+  
 </template>
 
 

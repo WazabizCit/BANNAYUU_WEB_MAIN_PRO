@@ -54,15 +54,19 @@
           <v-col class="text-center text-primary" cols="12">ไม่มีข้อมูล</v-col>
         </v-row>
       </div>
+
+      <Card_close_process :status_close_process="status_close_process" />
     </v-container>
   </div>
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
+import Card_close_process from "@/components/closeprocess_component/card_close_process";
 
 export default {
   data() {
     return {
+      status_close_process: false,
       status_show: false,
       overlay: false,
       txt_dialog_title: "",
@@ -87,11 +91,12 @@ export default {
       this.$axios
         .$post("actionnotification/get_list_notification", {
           m_uuiduser: this.uuiduser,
-          m_company_id: process.env.company_id
+          m_company_id: process.env.company_id,
+          m_promotion: process.env.promotion_code
         })
         .then(res => {
           this.overlay = false;
-          if (res.data == null) return (this.status_show = true);
+
           if (res.data.length == 0) {
             this.status_show = true;
           } else {
@@ -101,29 +106,33 @@ export default {
         })
         .catch(error => {
           this.overlay = false;
-          this.status_show = false;
+          this.status_close_process = true;
         })
         .finally();
     }
   },
   mounted() {
+    this.uuiduser = "U2a9a887f26eb7200dd52e97a04c13d1b";
+    this.requestData();
 
-    liff
-      .init({
-        liffId: process.env.liffid_notification
-      })
-      .then(() => {
-        if (liff.isLoggedIn()) {
-          liff.getProfile().then(profile => {
-            this.uuiduser = profile.userId;
-            this.requestData();
-          });
-        } else {
-          liff.login();
-        }
-      });
+    // liff
+    //   .init({
+    //     liffId: process.env.liffid_notification
+    //   })
+    //   .then(() => {
+    //     if (liff.isLoggedIn()) {
+    //       liff.getProfile().then(profile => {
+    //         this.uuiduser = profile.userId;
+    //         this.requestData();
+    //       });
+    //     } else {
+    //       liff.login();
+    //     }
+    //   });
   },
-  components: {}
+  components: {
+    Card_close_process
+  }
 };
 </script>
 

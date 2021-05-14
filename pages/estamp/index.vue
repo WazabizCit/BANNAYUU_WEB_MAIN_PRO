@@ -26,7 +26,7 @@
             </v-list-item>
             <v-card-actions class>
               <v-btn :disabled="item.estamp_flag == 'Y'" color="success" @click="btn_estamp(item)">
-                <v-icon left>mdi-stamper</v-icon>Estamp
+                <v-icon left>mdi-stamper</v-icon>ประทับตรา
               </v-btn>
               <v-spacer></v-spacer>
               <v-btn color="info" @click="btn_detail(item)">
@@ -69,15 +69,25 @@
       :obj_select="obj_select"
       @closeDialogdetail="closeDialogdetail"
     />
+
+    <Dialog_detail
+      :dialog_detail="dialog_detail"
+      :obj_select="obj_select"
+      @closeDialogdetail="closeDialogdetail"
+    />
+
+       <Card_close_process :status_close_process="status_close_process" />
   </div>
 </template>
 
 <script>
 import Dialog_estamp from "@/components/estamp_component/dialog_estamp";
 import Dialog_detail from "@/components/estamp_component/dialog_detail";
+import Card_close_process from "@/components/closeprocess_component/card_close_process";
 
 export default {
   data: () => ({
+    status_close_process: false,
     overlay: false,
     dialog_estamp: false,
     dialog_detail: false,
@@ -100,7 +110,9 @@ export default {
       this.items_list = [];
       this.$axios
         .$post("actionestamp/get_list_estamp", {
-          m_uuiduser: this.uuiduser
+          m_uuiduser: this.uuiduser,
+          m_company_id: process.env.company_id,
+          m_promotion: process.env.promotion_code
         })
         .then(res => {
           this.overlay = false;
@@ -112,7 +124,7 @@ export default {
           }
         })
         .catch(error => {
-          this.status_show = true;
+         this.status_close_process = true;
           this.overlay = false;
         })
         .finally();
@@ -126,26 +138,29 @@ export default {
     }
   },
   mounted() {
+    this.uuiduser = "U2a9a887f26eb7200dd52e97a04c13d1b";
+    this.requestData();
 
-    liff
-      .init({
-        liffId: process.env.liffid_estamp
-      })
-      .then(() => {
-        if (liff.isLoggedIn()) {
-          liff.getProfile().then(profile => {
-            //this.profileImg = profile.pictureUrl;
-            this.uuiduser = profile.userId;
-            this.requestData();
-          });
-        } else {
-          liff.login();
-        }
-      });
+    // liff
+    //   .init({
+    //     liffId: process.env.liffid_estamp
+    //   })
+    //   .then(() => {
+    //     if (liff.isLoggedIn()) {
+    //       liff.getProfile().then(profile => {
+    //         //this.profileImg = profile.pictureUrl;
+    //         this.uuiduser = profile.userId;
+    //         this.requestData();
+    //       });
+    //     } else {
+    //       liff.login();
+    //     }
+    //   });
   },
   components: {
     Dialog_estamp,
-    Dialog_detail
+    Dialog_detail,
+    Card_close_process
   }
 };
 </script>

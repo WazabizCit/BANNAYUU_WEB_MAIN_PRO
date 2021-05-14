@@ -156,19 +156,14 @@ export default {
                   m_uuiduser: this.uuiduser,
                   m_scfi_code: this.obj_select.scfi_code,
                   m_payment_event_id: this.obj_select.payment_event_id,
-                  m_company_id: process.env.company_id
+                  m_company_id: process.env.company_id,
+                  m_promotion: process.env.promotion_code
                 })
                 .then(res => {
                   this.set_default_value();
                   this.overlay = false;
-                  switch (res.message) {
-                    case "success":
-                      this.closeDialogPayment("success");
-                      break;
-                    default:
-                      this.closeDialogPayment("fail");
-                      break;
-                  }
+
+                  this.closeDialogPayment(res.message);
                 })
                 .catch(error => {
                   this.overlay = false;

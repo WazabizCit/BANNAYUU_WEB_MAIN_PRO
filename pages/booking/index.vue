@@ -7,7 +7,7 @@
         </v-col>
 
         <v-col v-for="(item, i) in items" :key="i" cols="12">
-          <v-card :color="item.color" dark>
+          <v-card v-if="!status_close_process" :color="item.color" dark>
             <div class="d-flex flex-no-wrap justify-space-between">
               <div>
                 <v-card-title class="headline" v-text="item.title"></v-card-title>
@@ -34,11 +34,13 @@
             </div>
           </v-card>
         </v-col>
-        <!-- 
-        <v-text-field class="mt-2" v-model="uuiduser" name="uuiduser" label="UUID" dense disabled></v-text-field>-->
+       
 
-        <div class="mt-5 w-100 text-orange text-center my-btn" @click="close_liff">ยกเลิกรายการ</div>
+      
       </v-row>
+       <Card_close_process :status_close_process="status_close_process" />
+
+         <div  hidden class="mt-5 w-100 text-orange text-center my-btn" @click="close_liff">ยกเลิกรายการ</div>
 
       <v-row>
         <v-col class="mt-5" cols="12"></v-col>
@@ -48,10 +50,12 @@
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
+import Card_close_process from "@/components/closeprocess_component/card_close_process";
 
 export default {
   data() {
     return {
+      status_close_process: false,
       items: [
         {
           id: 1,
@@ -92,25 +96,55 @@ export default {
     },
     setdata_user() {
       this.setInfoBookgin({ uuiduser: this.uuiduser });
+    },
+    async requestData() {
+      this.$axios
+        .$post("booking/check_status_booking", {
+          m_uuiduser: this.uuiduser,
+          m_company_id: process.env.company_id,
+          m_promotion: process.env.promotion_code
+        })
+        .then(res => {
+          switch (res.message) {
+            case "success":
+              this.status_close_process = false;
+              break;
+
+            default:            
+              this.status_close_process = true;
+              break;
+          }
+        })
+        .catch(error => {
+          this.status_close_process = true;
+        })
+        .finally();
     }
   },
 
   mounted() {
+    this.uuiduser = "U2a9a887f26eb7200dd52e97a04c13d1b";
+    this.setdata_user();
+    this.requestData();
 
-    liff
-      .init({
-        liffId: process.env.liffid_bookgin
-      })
-      .then(() => {
-        if (liff.isLoggedIn()) {
-          liff.getProfile().then(profile => {
-            this.uuiduser = profile.userId;
-            this.setdata_user();
-          });
-        } else {
-          liff.login();
-        }
-      });
+    // liff
+    //   .init({
+    //     liffId: process.env.liffid_bookgin
+    //   })
+    //   .then(() => {
+    //     if (liff.isLoggedIn()) {
+    //       liff.getProfile().then(profile => {
+    //         this.uuiduser = profile.userId;
+    //         this.setdata_user();
+     //         this.requestData();
+    //       });
+    //     } else {
+    //       liff.login();
+    //     }
+    //   });
+  },
+  components: {
+    Card_close_process
   }
 };
 </script>

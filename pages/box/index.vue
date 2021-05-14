@@ -110,15 +110,20 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+
+      <Card_close_process :status_close_process="status_close_process" />
+
     </v-container>
   </div>
 </template>
 
 <script>
 import Dialog_popup from "@/components/dialog_popup.vue";
+import Card_close_process from "@/components/closeprocess_component/card_close_process";
 
 export default {
   data: () => ({
+    status_close_process:false,
     dialog_status_boxsuccess: false,
     dialog_status: false,
     txt_dialog_title: "",
@@ -141,12 +146,15 @@ export default {
         .$post("actionbox/update_receive_vilager", {
           m_uuiduser: this.uuiduser,
           m_tpi_id: this.obj_select.tpi_id,
-          m_company: process.env.company_id
+          m_company: process.env.company_id,
+          m_promotion: process.env.promotion_code
         })
         .then(res => {
           this.overlay = false;
           this.requestData();
+            
           switch (res.message) {
+        
             case "success":
               this.dialog_status_boxsuccess = true;
               break;
@@ -154,6 +162,18 @@ export default {
             case "notfound_uuiduser":
               this.dialog_status = true;
               this.txt_dialog_title = "แจ้งเตือน";
+              this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+              break;
+
+            case "expire_date_fail":
+              this.dialog_status = true;
+              this.txt_dialog_title = "แจ้งเตือนหมดอายุ";
+              this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+              break;
+
+            case "promotion_fail":
+              this.dialog_status = true;
+              this.txt_dialog_title = "แจ้งเตือนโปรโมชั่นไม่ถูกต้อง";
               this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
               break;
 
@@ -179,7 +199,9 @@ export default {
       this.items_list = [];
       this.$axios
         .$post("actionbox/get_listbox", {
-          m_uuiduser: this.uuiduser
+          m_uuiduser: this.uuiduser,
+          m_company_id: process.env.company_id,
+          m_promotion: process.env.promotion_code
         })
         .then(res => {
           this.overlay = false;
@@ -188,11 +210,10 @@ export default {
           } else {
             this.items_list = res.data;
             this.status_show = false;
-            // console.log(res.data);
           }
         })
-        .catch(error => {
-          this.status_show = true;
+        .catch(error => {         
+          this.status_close_process = true;
           this.overlay = false;
         })
         .finally();
@@ -202,23 +223,29 @@ export default {
     }
   },
   mounted() {
-    liff
-      .init({
-        liffId: process.env.liffid_box
-      })
-      .then(() => {
-        if (liff.isLoggedIn()) {
-          liff.getProfile().then(profile => {
-            this.uuiduser = profile.userId;
-            this.requestData();
-          });
-        } else {
-          liff.login();
-        }
-      });
+    this.uuiduser = "U2a9a887f26eb7200dd52e97a04c13d1b";
+    this.requestData();
+
+    // liff
+    //   .init({
+    //     liffId: process.env.liffid_box
+    //   })
+    //   .then(() => {
+    //     if (liff.isLoggedIn()) {
+    //       liff.getProfile().then(profile => {
+    //         this.uuiduser = profile.userId;
+    //         this.requestData();
+    //       });
+    //     } else {
+    //       liff.login();
+    //     }
+    //   });
+
+    
   },
   components: {
-    Dialog_popup
+    Dialog_popup,
+    Card_close_process
   }
 };
 </script>

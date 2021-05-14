@@ -15,14 +15,20 @@
               v-ripple
               v-if="img_user_profile == null"
               class="card_gray mb-3 mt-5"
-            >
-              <span>click to add avatar</span>
+            >             
             </v-avatar>
             <v-avatar size="150px" v-ripple v-else class="mb-3">
               <img :src="getPhoto(img_user_profile)" alt="avatar" />
-            </v-avatar>
-          </div>
+            </v-avatar>            
+          </div>      
         </v-card-title>
+           <v-row>
+        <v-col cols="12">
+          <div class="text-primary text-center">รูปภาพส่วนตัว</div>
+        </v-col>
+      </v-row>
+
+            
 
         <v-list-item color="rgba(0, 0, 0, .4)">
           <v-list-item-content>
@@ -159,7 +165,8 @@ export default {
       this.$axios
         .$post("actionprofile/get_profile", {
           m_uuiduser: this.uuiduser,
-          m_company_id: process.env.company_id
+          m_company_id: process.env.company_id,
+          m_promotion: process.env.promotion_code
         })
         .then(res => {
           this.overlay = false;
@@ -184,6 +191,7 @@ export default {
           formData.append("keyfile", this.image_user);
           formData.append("m_uuiduser", this.uuiduser);
           formData.append("m_company_id", process.env.company_id);
+          formData.append("m_promotion", process.env.promotion_code);
 
           let res_data = await this.$axios.$post(
             "actionprofile/upload_image_user",
@@ -200,6 +208,18 @@ export default {
             case "notfound_uuiduser":
               this.dialog_status = true;
               this.txt_dialog_title = "แจ้งเตือน";
+              this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+              break;
+
+            case "expire_date_fail":
+              this.dialog_status = true;
+              this.txt_dialog_title = "แจ้งเตือนหมดอายุ";
+              this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+              break;
+
+            case "promotion_fail":
+              this.dialog_status = true;
+              this.txt_dialog_title = "แจ้งเตือนโปรโมชั่นไม่ถูกต้อง";
               this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
               break;
 
@@ -222,6 +242,7 @@ export default {
   },
   mounted() {
 
+
     liff
       .init({
         liffId: process.env.liffid_profile
@@ -231,12 +252,12 @@ export default {
           liff.getProfile().then(profile => {
             this.uuiduser = profile.userId;
             this.requestData();
-            //this.profileImg = profile.pictureUrl;
           });
         } else {
           liff.login();
         }
       });
+
   },
   components: {
     QrcodeVue,

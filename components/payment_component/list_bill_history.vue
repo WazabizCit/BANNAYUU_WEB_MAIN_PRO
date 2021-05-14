@@ -3,7 +3,7 @@
     <v-container class="mb-15">
       <v-row>
         <v-col v-for="item in list_items" :key="item.scfi_id" cols="12">
-          <v-card class="mx-auto" max-width="444" raised   elevation="15">
+          <v-card class="mx-auto" max-width="444" raised elevation="15">
             <v-list-item three-line>
               <v-list-item-content>
                 <v-list-item-title class="headline mb-1 pt-0">
@@ -24,8 +24,6 @@
                 <v-divider class="mt-2"></v-divider>
                 <v-list-item-subtitle class="mt-3">จำนวนเงิน</v-list-item-subtitle>
                 <v-list-item-title class="headline mb-1 text-success">{{item.payment_amount}}</v-list-item-title>
-           
-          
               </v-list-item-content>
             </v-list-item>
           </v-card>
@@ -45,21 +43,24 @@
         <v-progress-circular indeterminate size="64"></v-progress-circular>
       </v-overlay>
 
-
-
-
-  
+      <v-row>
+        <v-col cols="12">
+          <Card_close_process :status_close_process="status_close_process" />
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
+import Card_close_process from "@/components/closeprocess_component/card_close_process";
 
 export default {
   props: {
     uuiduser: ""
   },
   data: () => ({
+    status_close_process: false,
     dialog_status: false,
     txt_dialog_title: "",
     txt_dialog_sub: "",
@@ -73,13 +74,13 @@ export default {
     list_items: []
   }),
   methods: {
- 
     async requestData() {
       this.overlay = true;
       this.$axios
         .$post("actionpayment/getlistbillsuccess", {
           m_uuiduser: this.uuiduser,
-          m_company_id: process.env.company_id
+          m_company_id: process.env.company_id,
+          m_promotion: process.env.promotion_code
         })
         .then(res => {
           this.overlay = false;
@@ -93,19 +94,18 @@ export default {
         })
         .catch(error => {
           this.overlay = false;
-          this.status_show = true;
+          this.list_items = [];
+          this.status_close_process = true;
         })
         .finally();
-    } 
-   
-
-
+    }
   },
   mounted() {
     this.requestData();
   },
 
-  components: { 
+  components: {
+    Card_close_process
   }
 };
 </script>

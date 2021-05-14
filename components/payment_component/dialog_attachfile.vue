@@ -191,10 +191,12 @@ export default {
           );
           formData.append("m_scfi_code", this.obj_select.scfi_code);
           formData.append("m_company_id", process.env.company_id);
+          formData.append("m_promotion", process.env.promotion_code);
           formData.append("m_tpcfi_remark", this.txt_remark);
           formData.append("m_pickerdate", this.pickerdate);
           formData.append("m_pickertime", this.pickertime);
           formData.append("m_bank", this.select_bank);
+    
 
           let res_data = await this.$axios.$post(
             "actionpayment/attachfilebill",
@@ -204,15 +206,7 @@ export default {
           this.image_attachfile = null;
           this.txt_remark = "";
 
-          switch (res_data.message) {
-            case "success":
-              this.closeDialogAttachfile("success");
-              break;
-
-            default:
-              this.closeDialogAttachfile("fail");
-              break;
-          }
+          this.closeDialogAttachfile(res_data.message);
         } catch (error) {
           this.closeDialogAttachfile("fail");
         }

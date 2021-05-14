@@ -89,9 +89,11 @@ export default {
       try {
         const response = await this.$axios.$post("actionestamp/setestamp", {
           m_uuiduser: this.uuiduser,
+          m_company_id: process.env.company_id,
+          m_promotion: process.env.promotion_code,
           m_visitor_record_id: this.obj_select.visitor_record_id
         });
-
+        this.overlay = false;
         switch (response.message) {
           case "success":
             this.closeDialogestamp();
@@ -110,6 +112,18 @@ export default {
           case "notfound_uuiduser":
             this.dialog_status = true;
             this.txt_dialog_title = "แจ้งเตือน";
+            this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+            break;
+
+          case "expire_date_fail":
+            this.dialog_status = true;
+            this.txt_dialog_title = "แจ้งเตือนหมดอายุ";
+            this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+            break;
+
+          case "promotion_fail":
+            this.dialog_status = true;
+            this.txt_dialog_title = "แจ้งเตือนโปรโมชั่นไม่ถูกต้อง";
             this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
             break;
 

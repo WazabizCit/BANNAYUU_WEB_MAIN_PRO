@@ -6,15 +6,22 @@
           <div class="mt-7 text-primary text-title text-center">ระบบฉุกเฉิน</div>
         </v-col>
 
-        <v-row class="ml-5 mr-5 mt-5" align="center" justify="space-around">
+        <v-row
+          v-if="!status_close_process"
+          class="ml-5 mr-5 mt-5"
+          align="center"
+          justify="space-around"
+        >
           <v-btn block color="red" @click="btn_add_sos" dark>
             <v-icon left>mdi-car-brake-alert</v-icon>แจ้งฉุกเฉิน
           </v-btn>
         </v-row>
+
+        
       </v-row>
 
-      <v-row align="center" justify="center">
-        <div class="text-primary text-title mt-10 mb-2">ประวัติฉุกเฉิน</div>
+      <v-row  v-if="!status_close_process" align="center" justify="center">
+        <div  class="text-primary text-title mt-10 mb-2">ประวัติฉุกเฉิน</div>
         <v-col v-for="item in items_list" :key="item.sos_id" cols="12">
           <v-card class="mx-auto mt-2" max-width="364" raised elevation="10">
             <v-list-item class="mb-3" three-line>
@@ -115,16 +122,22 @@
           <v-col class="text-center text-primary" cols="12">ไม่มีข้อมูล</v-col>
         </v-row>
       </div>
+
+      <Card_close_process :status_close_process="status_close_process" />
+
+
     </v-container>
   </div>
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
 import Dialog_popup from "@/components/dialog_popup.vue";
+import Card_close_process from "@/components/closeprocess_component/card_close_process";
 
 export default {
   data() {
     return {
+      status_close_process: false,
       status_show: false,
       overlay: false,
       dialog_status_success: false,
@@ -167,6 +180,7 @@ export default {
           formData.append("m_sos_header_text", this.sos_header_text);
           formData.append("m_sos_detail_text", this.sos_detail_text);
           formData.append("m_company_id", process.env.company_id);
+          formData.append("m_promotion", process.env.promotion_code);
 
           let res_data = await this.$axios.$post(
             "actionsos/send_sos",
@@ -182,13 +196,23 @@ export default {
           switch (res_data.message) {
             case "success":
               this.dialog_status_success = true;
-              //  socket.emit("send_sos", { company_id: res.data.company_id });
-
               break;
 
             case "notfound_uuiduser":
               this.dialog_status = true;
               this.txt_dialog_title = "แจ้งเตือน";
+              this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+              break;
+
+            case "expire_date_fail":
+              this.dialog_status = true;
+              this.txt_dialog_title = "แจ้งเตือนหมดอายุ";
+              this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
+              break;
+
+            case "promotion_fail":
+              this.dialog_status = true;
+              this.txt_dialog_title = "แจ้งเตือนโปรโมชั่นไม่ถูกต้อง";
               this.txt_dialog_sub = "กรุณาติดต่อเจ้าหน้าที่";
               break;
 
@@ -212,11 +236,12 @@ export default {
       this.$axios
         .$post("actionsos/get_listsos", {
           m_uuiduser: this.uuiduser,
-          m_company_id: process.env.company_id
+          m_company_id: process.env.company_id,
+          m_promotion: process.env.promotion_code
         })
         .then(res => {
           this.overlay = false;
-          if (res.data == null) return (this.status_show = true);
+
           if (res.data.length == 0) {
             this.status_show = true;
           } else {
@@ -226,7 +251,7 @@ export default {
         })
         .catch(error => {
           this.overlay = false;
-          this.status_show = false;
+          this.status_close_process = true;
         })
         .finally();
     },
@@ -235,25 +260,27 @@ export default {
     }
   },
   mounted() {
+    this.uuiduser = "U2a9a887f26eb7200dd52e97a04c13d1b";
+    this.requestData();
 
-
-    liff
-      .init({
-        liffId: process.env.liffid_sos
-      })
-      .then(() => {
-        if (liff.isLoggedIn()) {
-          liff.getProfile().then(profile => {
-            this.uuiduser = profile.userId;
-            this.requestData();
-          });
-        } else {
-          liff.login();
-        }
-      });
+    // liff
+    //   .init({
+    //     liffId: process.env.liffid_sos
+    //   })
+    //   .then(() => {
+    //     if (liff.isLoggedIn()) {
+    //       liff.getProfile().then(profile => {
+    //         this.uuiduser = profile.userId;
+    //         this.requestData();
+    //       });
+    //     } else {
+    //       liff.login();
+    //     }
+    //   });
   },
   components: {
-    Dialog_popup
+    Dialog_popup,
+    Card_close_process
   }
 };
 </script>
