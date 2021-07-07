@@ -7,22 +7,20 @@
         </v-col>
         <v-col cols="12" class="pt-0 pb-0">
           <div class="text-center">
-            <img src="~/assets/img/icons8-user-male-100.png" alt width="155" />
+            <img src="~/assets/img/img_add_user.svg" alt width="155" />
           </div>
         </v-col>
         <v-col cols="12">
           <v-form ref="form">
             <div class="mt-8">
-
-              
-              <v-text-field
+              <!-- <v-text-field
                 class="mt-2"
                 v-model="uuiduser"
                 name="uuiduser"
                 label="UUID"
                 dense
                 disabled
-              ></v-text-field>
+              ></v-text-field>-->
 
               <v-text-field
                 class="mt-2"
@@ -32,7 +30,6 @@
                 dense
                 readonly
               ></v-text-field>
-
 
               <v-text-field
                 class="mt-2"
@@ -44,7 +41,6 @@
                 dense
                 readonly
               ></v-text-field>
-
 
               <v-text-field
                 class="mt-2"
@@ -101,7 +97,6 @@
   </div>
 </template>
 <script>
-
 import Dialog_popup from "@/components/dialog_popup.vue";
 import { mapActions, mapGetters } from "vuex";
 
@@ -155,17 +150,17 @@ export default {
         const response = await this.$axios.$post(
           "actionregistermember/regisert/member",
           {
+            m_company_id: process.env.company_id,
             m_phonenumber: this.phonenumber,
             m_uuiduser: this.uuiduser,
             m_tokenuser: this.tokenuser
           }
         );
 
-
         switch (response.message) {
           case "success":
             this.$nuxt.$loading.finish();
-           this.$router.push("/register/member/step_reg_success");
+            this.$router.push("/register/member/step_reg_success");
             break;
 
           case "update_false":
@@ -174,8 +169,6 @@ export default {
             this.txt_dialog_sub = "อัพเดทข้อมูลไม่สำเร็จ";
             this.$nuxt.$loading.finish();
             break;
-
-            
 
           default:
             this.dialog_status = true;

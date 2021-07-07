@@ -7,7 +7,7 @@
             <v-list-item-content class="justify-center">
               <v-img
                 class="mt-2"
-                :src="require('~/assets/img/icons8-checked-80.png')"
+                :src="require('~/assets/img/img_checked_success.svg')"
                 contain
                 max-width="60"
               ></v-img>

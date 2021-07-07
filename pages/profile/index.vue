@@ -15,20 +15,17 @@
               v-ripple
               v-if="img_user_profile == null"
               class="card_gray mb-3 mt-5"
-            >             
-            </v-avatar>
+            ></v-avatar>
             <v-avatar size="150px" v-ripple v-else class="mb-3">
               <img :src="getPhoto(img_user_profile)" alt="avatar" />
-            </v-avatar>            
-          </div>      
+            </v-avatar>
+          </div>
         </v-card-title>
-           <v-row>
-        <v-col cols="12">
-          <div class="text-primary text-center">รูปภาพส่วนตัว</div>
-        </v-col>
-      </v-row>
-
-            
+        <v-row>
+          <v-col cols="12">
+            <div class="text-primary text-center">รูปภาพส่วนตัว</div>
+          </v-col>
+        </v-row>
 
         <v-list-item color="rgba(0, 0, 0, .4)">
           <v-list-item-content>
@@ -86,7 +83,7 @@
           <v-list-item-content class="justify-center">
             <v-img
               class="mt-2"
-              :src="require('~/assets/img/icons8-checked-80.png')"
+              :src="require('~/assets/img/img_checked_success.svg')"
               contain
               max-width="60"
             ></v-img>
@@ -257,7 +254,7 @@ export default {
           liff.login();
         }
       });
-
+      
   },
   components: {
     QrcodeVue,

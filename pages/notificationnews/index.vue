@@ -112,23 +112,24 @@ export default {
     }
   },
   mounted() {
-    this.uuiduser = "U2a9a887f26eb7200dd52e97a04c13d1b";
-    this.requestData();
+  
 
-    // liff
-    //   .init({
-    //     liffId: process.env.liffid_notification
-    //   })
-    //   .then(() => {
-    //     if (liff.isLoggedIn()) {
-    //       liff.getProfile().then(profile => {
-    //         this.uuiduser = profile.userId;
-    //         this.requestData();
-    //       });
-    //     } else {
-    //       liff.login();
-    //     }
-    //   });
+    liff
+      .init({
+        liffId: process.env.liffid_notification
+      })
+      .then(() => {
+        if (liff.isLoggedIn()) {
+          liff.getProfile().then(profile => {
+            this.uuiduser = profile.userId;
+            this.requestData();
+          });
+        } else {
+          liff.login();
+        }
+      });
+
+      
   },
   components: {
     Card_close_process

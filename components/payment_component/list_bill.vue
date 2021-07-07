@@ -60,7 +60,7 @@
           <v-card-text>
             <v-btn color="info" block @click="open_dialog_attachfile">แนบไฟล์การโอน</v-btn>
             <p></p>
-            <v-btn color="info" block @click="open_dialog_payment">ชำระผ่านบัตรเครดิต</v-btn>
+            <!-- <v-btn color="info" block @click="open_dialog_payment">ชำระผ่านบัตรเครดิต</v-btn> -->
           </v-card-text>
 
           <v-card-actions>
@@ -88,7 +88,7 @@
           <v-list-item-content class="justify-center">
             <v-img
               class="mt-2"
-              :src="require('~/assets/img/icons8-checked-80.png')"
+              :src="require('~/assets/img/img_checked_success.svg')"
               contain
               max-width="60"
             ></v-img>

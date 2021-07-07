@@ -138,24 +138,25 @@ export default {
     }
   },
   mounted() {
-    this.uuiduser = "U2a9a887f26eb7200dd52e97a04c13d1b";
-    this.requestData();
+  
 
-    // liff
-    //   .init({
-    //     liffId: process.env.liffid_estamp
-    //   })
-    //   .then(() => {
-    //     if (liff.isLoggedIn()) {
-    //       liff.getProfile().then(profile => {
-    //         //this.profileImg = profile.pictureUrl;
-    //         this.uuiduser = profile.userId;
-    //         this.requestData();
-    //       });
-    //     } else {
-    //       liff.login();
-    //     }
-    //   });
+    liff
+      .init({
+        liffId: process.env.liffid_estamp
+      })
+      .then(() => {
+        if (liff.isLoggedIn()) {
+          liff.getProfile().then(profile => {
+            //this.profileImg = profile.pictureUrl;
+            this.uuiduser = profile.userId;
+            this.requestData();
+          });
+        } else {
+          liff.login();
+        }
+      });
+
+      
   },
   components: {
     Dialog_estamp,

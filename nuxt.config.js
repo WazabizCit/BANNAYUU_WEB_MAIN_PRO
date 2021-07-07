@@ -75,14 +75,16 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
+
   axios: {
-    //baseURL: "https://35824214565b.jp.ngrok.io/"
-    baseURL: "http://127.0.0.1:8504/"
-    //baseURL: "https://cit.bannayuu.com/apiline/"
+    //baseURL: "https://14f2ace155e3.jp.ngrok.io/"
+    //baseURL: "http://127.0.0.1:8504/"
+    //baseURL: "https://uat.bannayuu.com/apiline/"
+    baseURL: "https://cit.bannayuu.com/apiline/"
   },
 
 
- 
+
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {

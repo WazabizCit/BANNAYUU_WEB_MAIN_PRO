@@ -95,7 +95,7 @@
           <v-list-item-content class="justify-center">
             <v-img
               class="mt-2"
-              :src="require('~/assets/img/icons8-checked-80.png')"
+              :src="require('~/assets/img/img_checked_success.svg')"
               contain
               max-width="60"
             ></v-img>
@@ -262,23 +262,21 @@ export default {
     }
   },
   mounted() {
-    this.uuiduser = "U2a9a887f26eb7200dd52e97a04c13d1b";
-    this.requestData();
 
-    // liff
-    //   .init({
-    //     liffId: process.env.liffid_appeal
-    //   })
-    //   .then(() => {
-    //     if (liff.isLoggedIn()) {
-    //       liff.getProfile().then(profile => {
-    //         this.uuiduser = profile.userId;
-    //         this.requestData();
-    //       });
-    //     } else {
-    //       liff.login();
-    //     }
-    //   });
+    liff
+      .init({
+        liffId: process.env.liffid_appeal
+      })
+      .then(() => {
+        if (liff.isLoggedIn()) {
+          liff.getProfile().then(profile => {
+            this.uuiduser = profile.userId;
+            this.requestData();
+          });
+        } else {
+          liff.login();
+        }
+      });
   },
   components: {
     Dialog_popup,

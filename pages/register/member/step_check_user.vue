@@ -7,13 +7,23 @@
         </v-col>
         <v-col cols="12" class="pt-0 pb-0">
           <div class="text-center">
-            <img src="~/assets/img/icons8-file-100.png" alt width="155" />
+            <img src="~/assets/img/img_search_user.svg" alt width="155" />
           </div>
         </v-col>
         <v-col cols="12">
           <v-form ref="form" v-model="valid">
             <p class="text-center text-sub-title mb-0 text-primary">กรุณากรอกรายละเอียด</p>
             <div class="mt-8">
+              
+              <!-- <v-text-field
+                class="mt-2"
+                v-model="form.uuiduser"
+                name="uuiduser"
+                label="UUID"
+                dense
+                disabled
+              ></v-text-field> -->
+
               <v-text-field
                 class="mt-5"
                 v-model="form.tokenuser"
@@ -75,7 +85,7 @@ export default {
       txt_dialog_sub: "",
       form: {
         phonenumber: "",
-        tokenuser: "",    
+        tokenuser: "",
         uuiduser: "",
         firstname: "",
         lastname: "",
@@ -103,6 +113,7 @@ export default {
           const response = await this.$axios.$post(
             "actionregistermember/checktoken/member",
             {
+              m_company_id:  process.env.company_id,
               m_phonenumber: this.form.phonenumber,
               m_tokenuser: this.form.tokenuser,
               m_uuiduser: this.form.uuiduser
@@ -162,20 +173,22 @@ export default {
     Dialog_popup
   },
   mounted() {
-      liff
-        .init({
-          liffId: process.env.liffid_member
-        })
-        .then(() => {
-          if (liff.isLoggedIn()) {
-            liff.getProfile().then(profile => {
-              //this.profileImg = profile.pictureUrl;
-              this.form.uuiduser = profile.userId;
-            });
-          } else {
-            liff.login();
-          }
-        });
+    // this.form.uuiduser  = "U2a9a887f26eb7200dd52e97a04c13d1b";
+
+    liff
+      .init({
+        liffId: process.env.liffid_member
+      })
+      .then(() => {
+        if (liff.isLoggedIn()) {
+          liff.getProfile().then(profile => {
+            //this.profileImg = profile.pictureUrl;
+            this.form.uuiduser = profile.userId;
+          });
+        } else {
+          liff.login();
+        }
+      });
   }
 };
 </script>

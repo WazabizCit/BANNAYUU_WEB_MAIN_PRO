@@ -16,12 +16,10 @@
             <v-icon left>mdi-car-brake-alert</v-icon>แจ้งฉุกเฉิน
           </v-btn>
         </v-row>
-
-        
       </v-row>
 
-      <v-row  v-if="!status_close_process" align="center" justify="center">
-        <div  class="text-primary text-title mt-10 mb-2">ประวัติฉุกเฉิน</div>
+      <v-row v-if="!status_close_process" align="center" justify="center">
+        <div class="text-primary text-title mt-10 mb-2">ประวัติฉุกเฉิน</div>
         <v-col v-for="item in items_list" :key="item.sos_id" cols="12">
           <v-card class="mx-auto mt-2" max-width="364" raised elevation="10">
             <v-list-item class="mb-3" three-line>
@@ -94,7 +92,7 @@
           <v-list-item-content class="justify-center">
             <v-img
               class="mt-2"
-              :src="require('~/assets/img/icons8-checked-80.png')"
+              :src="require('~/assets/img/img_checked_success.svg')"
               contain
               max-width="60"
             ></v-img>
@@ -124,8 +122,6 @@
       </div>
 
       <Card_close_process :status_close_process="status_close_process" />
-
-
     </v-container>
   </div>
 </template>
@@ -260,23 +256,20 @@ export default {
     }
   },
   mounted() {
-    this.uuiduser = "U2a9a887f26eb7200dd52e97a04c13d1b";
-    this.requestData();
-
-    // liff
-    //   .init({
-    //     liffId: process.env.liffid_sos
-    //   })
-    //   .then(() => {
-    //     if (liff.isLoggedIn()) {
-    //       liff.getProfile().then(profile => {
-    //         this.uuiduser = profile.userId;
-    //         this.requestData();
-    //       });
-    //     } else {
-    //       liff.login();
-    //     }
-    //   });
+    liff
+      .init({
+        liffId: process.env.liffid_sos
+      })
+      .then(() => {
+        if (liff.isLoggedIn()) {
+          liff.getProfile().then(profile => {
+            this.uuiduser = profile.userId;
+            this.requestData();
+          });
+        } else {
+          liff.login();
+        }
+      });
   },
   components: {
     Dialog_popup,

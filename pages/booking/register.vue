@@ -7,7 +7,7 @@
         </v-col>
         <v-col cols="12" class="pt-0 pb-0">
           <div class="text-center">
-            <img src="~/assets/img/icons8-user-male-100.png" alt width="155" />
+            <img src="~/assets/img/img_contact.svg" alt width="125" />
           </div>
         </v-col>
         <v-col cols="12">
