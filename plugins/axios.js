@@ -1,6 +1,8 @@
 export default function ({ $axios, redirect, store ,app}) {
 
-    $axios.onRequest(config => {     
+    $axios.defaults.timeout = 20000
+
+    $axios.onRequest(config => {
         // if (store.$auth.getToken('local')) 
         // config.headers.common['uuid_use'] = `ASD44564687554154asdasd`
         // config.headers.common['build_name'] = `N24`

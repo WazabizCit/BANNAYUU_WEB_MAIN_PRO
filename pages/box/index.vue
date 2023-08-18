@@ -146,7 +146,7 @@ export default {
         .$post("actionbox/update_receive_vilager", {
           m_uuiduser: this.uuiduser,
           m_tpi_id: this.obj_select.tpi_id,
-          m_company: process.env.company_id,
+          m_company_id: process.env.company_id,
           m_promotion: process.env.promotion_code
         })
         .then(res => {

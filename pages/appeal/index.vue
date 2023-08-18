@@ -69,7 +69,7 @@
             <v-file-input
               v-model="image_appeal"
               type="file"
-              accept="image/*"
+              accept="image/jpeg, image/png, image/jpg, image/heic"
               label="แนบไฟล์ภาพ"
               prepend-icon="mdi-paperclip"
             ></v-file-input>
@@ -227,7 +227,8 @@ export default {
         } catch (error) {
           this.dialog_status = true;
           this.txt_dialog_title = "แจ้งเตือน";
-          this.txt_dialog_sub = "ระบบผิดพลาด";
+          this.txt_dialog_sub = "ระบบผิดพลาดxxxs";
+          console.log(error)
         }
       }
     },

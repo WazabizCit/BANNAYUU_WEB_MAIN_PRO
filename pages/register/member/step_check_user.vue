@@ -14,7 +14,7 @@
           <v-form ref="form" v-model="valid">
             <p class="text-center text-sub-title mb-0 text-primary">กรุณากรอกรายละเอียด</p>
             <div class="mt-8">
-              
+
               <!-- <v-text-field
                 class="mt-2"
                 v-model="form.uuiduser"
@@ -24,51 +24,23 @@
                 disabled
               ></v-text-field> -->
 
-              <v-text-field
-                class="mt-5"
-                v-model="form.tokenuser"
-                name="tokenuser"
-                label="TOKEN"
-                dense
-                :rules="tokenRules"
-              ></v-text-field>
+              <v-text-field class="mt-5" v-model="form.tokenuser" name="tokenuser" label="TOKEN" dense
+                :rules="tokenRules"></v-text-field>
 
-              <v-text-field
-                class="mt-2"
-                name="phonenumber"
-                v-model="form.phonenumber"
-                label="เบอร์มือถือ"
-                type="text"
-                inputmode="tel"
-                pattern="[0-9]*"
-                :maxlength="10"
-                :counter="10"
-                id="phonenumber"
-                dense
-                :rules="phonenumberRules"
-                onkeypress="return event.charCode >= 48 && event.charCode <= 57"
-              ></v-text-field>
+              <v-text-field class="mt-2" name="phonenumber" v-model="form.phonenumber" label="เบอร์มือถือ" type="text"
+                inputmode="tel" pattern="[0-9]*" :maxlength="10" :counter="10" id="phonenumber" dense
+                :rules="phonenumberRules" onkeypress="return event.charCode >= 48 && event.charCode <= 57"></v-text-field>
             </div>
 
-            <v-btn
-              rounded
-              color="primary"
-              dark
-              class="w-100 mt-4 my-btn"
-              @click="check_data"
-            >ตรวจสอบ</v-btn>
+            <v-btn rounded color="primary" dark class="w-100 mt-4 my-btn" @click="check_data">ตรวจสอบ</v-btn>
 
             <div class="mt-5 w-100 text-orange text-center my-btn" @click="close_liff">ยกเลิกรายการ</div>
           </v-form>
         </v-col>
       </v-row>
 
-      <Dialog_popup
-        :dialog_status="dialog_status"
-        :txt_dialog_sub="txt_dialog_sub"
-        :txt_dialog_title="txt_dialog_title"
-        @closeDialog="closeDialog"
-      />
+      <Dialog_popup :dialog_status="dialog_status" :txt_dialog_sub="txt_dialog_sub" :txt_dialog_title="txt_dialog_title"
+        @closeDialog="closeDialog" />
     </v-container>
   </div>
 </template>
@@ -107,55 +79,74 @@ export default {
       setRegisterMember: "register_member/setRegisterMember"
     }),
     async check_data() {
-      if (this.$refs.form.validate()) {
-        this.$nuxt.$loading.start();
-        try {
-          const response = await this.$axios.$post(
-            "actionregistermember/checktoken/member",
-            {
-              m_company_id:  process.env.company_id,
-              m_phonenumber: this.form.phonenumber,
-              m_tokenuser: this.form.tokenuser,
-              m_uuiduser: this.form.uuiduser
+
+      if (this.form.uuiduser == '') {
+
+        this.dialog_status = true;
+        this.txt_dialog_sub = "ระบบผิดพลาด";
+        this.txt_dialog_title = "กรุณาทำรายการใหม่ภายหลัง";
+        this.$nuxt.$loading.finish();
+
+
+
+      } else {
+
+        if (this.$refs.form.validate()) {
+          this.$nuxt.$loading.start();
+          try {
+            const response = await this.$axios.$post(
+              "actionregistermember/checktoken/member",
+              {
+                m_company_id: process.env.company_id,
+                m_phonenumber: this.form.phonenumber,
+                m_tokenuser: this.form.tokenuser,
+                m_uuiduser: this.form.uuiduser
+              }
+            );
+
+
+
+            switch (response.message) {
+              case "success":
+                this.setdata_user(response.data);
+                this.$nuxt.$loading.finish();
+                this.$router.push("/register/member/step_detail_user");
+
+                break;
+
+              case "duplicate_uuiduser":
+                this.dialog_status = true;
+                this.txt_dialog_title = "แจ้งเตือน";
+                this.txt_dialog_sub = "ลูกค้าได้ทำการลงทะเบียนแล้ว";
+                this.$nuxt.$loading.finish();
+                break;
+
+              case "not_found":
+                this.dialog_status = true;
+                this.txt_dialog_title = "แจ้งเตือน";
+                this.txt_dialog_sub = "ไม่พบข้อมูลลูกค้า";
+                this.$nuxt.$loading.finish();
+                break;
+
+              default:
+                this.dialog_status = true;
+                this.txt_dialog_sub = "ระบบผิดพลาด";
+                this.txt_dialog_title = "ระบบผิดพลาด";
+                this.$nuxt.$loading.finish();
+                break;
             }
-          );
-
-          switch (response.message) {
-            case "success":
-              this.setdata_user(response.data);
-              this.$nuxt.$loading.finish();
-              this.$router.push("/register/member/step_detail_user");
-
-              break;
-
-            case "duplicate_uuiduser":
-              this.dialog_status = true;
-              this.txt_dialog_title = "แจ้งเตือน";
-              this.txt_dialog_sub = "ลูกค้าได้ทำการลงทะเบียนแล้ว";
-              this.$nuxt.$loading.finish();
-              break;
-
-            case "not_found":
-              this.dialog_status = true;
-              this.txt_dialog_title = "แจ้งเตือน";
-              this.txt_dialog_sub = "ไม่พบข้อมูลลูกค้า";
-              this.$nuxt.$loading.finish();
-              break;
-
-            default:
-              this.dialog_status = true;
-              this.txt_dialog_sub = "ระบบผิดพลาด";
-              this.txt_dialog_title = "ระบบผิดพลาด";
-              this.$nuxt.$loading.finish();
-              break;
+          } catch (e) {
+            this.dialog_status = true;
+            this.txt_dialog_sub = "ระบบผิดพลาด";
+            this.txt_dialog_title = "ระบบผิดพลาด";
+            this.$nuxt.$loading.finish();
           }
-        } catch (e) {
-          this.dialog_status = true;
-          this.txt_dialog_sub = "ระบบผิดพลาด";
-          this.txt_dialog_title = "ระบบผิดพลาด";
-          this.$nuxt.$loading.finish();
         }
+
+
+
       }
+
     },
     closeDialog(obj) {
       this.dialog_status = obj.status_dialog;
@@ -173,13 +164,12 @@ export default {
     Dialog_popup
   },
   mounted() {
-    // this.form.uuiduser  = "U2a9a887f26eb7200dd52e97a04c13d1b";
+    //  this.form.uuiduser  = "U6641b60472a13e043d22d70915fd046d";
 
-    liff
-      .init({
-        liffId: process.env.liffid_member
-      })
-      .then(() => {
+
+
+    liff.init({ liffId: process.env.liffid_member })
+      .then(async () => {
         if (liff.isLoggedIn()) {
           liff.getProfile().then(profile => {
             //this.profileImg = profile.pictureUrl;
@@ -188,7 +178,12 @@ export default {
         } else {
           liff.login();
         }
-      });
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+
+
   }
 };
 </script>

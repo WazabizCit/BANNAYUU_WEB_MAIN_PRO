@@ -13,11 +13,11 @@
               ></v-img>
               <div class="text-success headline text-center mt-3">ทำรายการสำเร็จ</div>
               <v-list-item-subtitle class="text-center mt-2">ลูกค้าทำรายการสำเร็จ</v-list-item-subtitle>
-              <v-list-item-subtitle class="text-center">กรุณากดปุ่มกลับสู่หน้าหลักเพื่อทำรายการต่อ</v-list-item-subtitle>
+              <v-list-item-subtitle class="text-center">กรุณากดปุ่มปิด</v-list-item-subtitle>
             </v-list-item-content>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn class="text-center" color="primary" @click="next">กลับสู่หน้าหลัก</v-btn>
+              <v-btn class="text-center" color="primary" @click="next">ปิดหน้าต่าง</v-btn>
               <v-spacer></v-spacer>
             </v-card-actions>
           </v-card>
@@ -33,7 +33,7 @@ export default {
 
   methods: {
     next() {
-      this.$router.push("/booking/history");
+      liff.closeWindow();
     }
   },
   mounted() {}

@@ -75,7 +75,7 @@ export default {
   data: () => ({
     status_close_process: false,
     overlay: false,
-    uuiduser: "",
+   // uuiduser: "U6641b60472a13e043d22d70915fd046d",
     status_show: false,
     size: 120,
     obj_select: {},
@@ -90,14 +90,11 @@ export default {
         "_blank"
       );
     },
-    ...mapGetters({
-      getInfoBooking: "booking/getInfoBooking"
-    }),
-    async requestData() {
+    async requestData(uuiduser) {
       this.overlay = true;
       this.$axios
         .$post("booking/history", {
-          m_uuiduser: this.getInfoBooking().uuiduser,
+          m_uuiduser:  uuiduser,
           m_company_id: process.env.company_id,
           m_promotion: process.env.promotion_code
         })
@@ -126,7 +123,23 @@ export default {
     }
   },
   mounted() {
-    this.requestData();
+
+    liff
+      .init({
+        liffId: process.env.liffid_booking_history
+      })
+      .then(() => {
+        if (liff.isLoggedIn()) {
+          liff.getProfile().then(profile => {
+            //this.profileImg = profile.pictureUrl;
+            //this.uuiduser = profile.userId;
+            this.requestData(profile.userId);
+          });
+        } else {
+          liff.login();
+        }
+      });
+
   },
   components: {
     QrcodeVue,
