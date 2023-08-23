@@ -10,12 +10,7 @@
       <v-card class="mx-auto mt-5" max-width="434" tile>
         <v-card-title primary-title class="justify-center">
           <div slot="activator" @click="openDialogUpload">
-            <v-avatar
-              size="180px"
-              v-ripple
-              v-if="img_user_profile == null"
-              class="card_gray mb-3 mt-5"
-            ></v-avatar>
+            <v-avatar size="180px" v-ripple v-if="img_user_profile == null" class="card_gray mb-3 mt-5"></v-avatar>
             <v-avatar size="150px" v-ripple v-else class="mb-3">
               <img :src="getPhoto(img_user_profile)" alt="avatar" />
             </v-avatar>
@@ -34,9 +29,9 @@
               <v-btn color="primary" @click="openDialogQr">QrCode ของฉัน</v-btn>
             </v-list-item-title>
             <v-list-item-subtitle class="mt-2">Name</v-list-item-subtitle>
-            <v-list-item-title class="title">{{home_line_first_name}} {{home_line_last_name}}</v-list-item-title>
+            <v-list-item-title class="title">{{ home_line_first_name }} {{ home_line_last_name }}</v-list-item-title>
             <v-list-item-subtitle class="mt-2">Home Address</v-list-item-subtitle>
-            <v-list-item-title class="title">{{home_address}}</v-list-item-title>
+            <v-list-item-title class="title">{{ home_address }}</v-list-item-title>
             <div class="mt-5"></div>
           </v-list-item-content>
         </v-list-item>
@@ -60,14 +55,8 @@
           <v-card-title>แก้ไขรูปภาพ</v-card-title>
           <v-form ref="form" lazy-validation>
             <div align="center" justify="center">
-              <v-file-input
-                v-model="image_user"
-                type="file"
-                accept="image/*"
-                label="แนบไฟล์ภาพ"
-                prepend-icon="mdi-paperclip"
-                :rules="uploadimgRules"
-              ></v-file-input>
+              <v-file-input v-model="image_user" type="file" accept="image/*" label="แนบไฟล์ภาพ"
+                prepend-icon="mdi-paperclip" :rules="uploadimgRules"></v-file-input>
             </div>
           </v-form>
           <v-card-actions>
@@ -81,12 +70,7 @@
       <v-dialog v-model="dialog_status_success" persistent width="300">
         <v-card max-width="344" class="mx-auto" raised>
           <v-list-item-content class="justify-center">
-            <v-img
-              class="mt-2"
-              :src="require('~/assets/img/img_checked_success.svg')"
-              contain
-              max-width="60"
-            ></v-img>
+            <v-img class="mt-2" :src="require('~/assets/img/img_checked_success.svg')" contain max-width="60"></v-img>
             <div class="text-success headline text-center mt-3">ทำรายการสำเร็จ</div>
             <v-list-item-subtitle class="text-center mt-2">ลูกค้าทำรายการสำเร็จ</v-list-item-subtitle>
             <v-list-item-subtitle class="text-center">กรุณากดปุ่มตกลงเพื่อทำรายการต่อ</v-list-item-subtitle>
@@ -99,12 +83,8 @@
         </v-card>
       </v-dialog>
 
-      <Dialog_popup
-        :dialog_status="dialog_status"
-        :txt_dialog_sub="txt_dialog_sub"
-        :txt_dialog_title="txt_dialog_title"
-        @closeDialog="closeDialog"
-      />
+      <Dialog_popup :dialog_status="dialog_status" :txt_dialog_sub="txt_dialog_sub" :txt_dialog_title="txt_dialog_title"
+        @closeDialog="closeDialog" />
 
       <v-overlay :value="overlay">
         <v-progress-circular indeterminate size="64"></v-progress-circular>
@@ -244,7 +224,7 @@ export default {
       .init({
         liffId: process.env.liffid_profile
       })
-      .then(() => {
+      .then(async() => {
         if (liff.isLoggedIn()) {
           liff.getProfile().then(profile => {
             this.uuiduser = profile.userId;
@@ -254,7 +234,9 @@ export default {
           liff.login();
         }
       });
+
       
+
   },
   components: {
     QrcodeVue,
@@ -267,6 +249,7 @@ export default {
 .v-form {
   padding: 0 10px;
 }
+
 .v-icon-size {
   font-size: 80px;
   padding: 0 15px;

@@ -8,7 +8,9 @@ export const state = () => ({
         firstname:'',    
         lastname:'',    
         phonenumber:'',
-        address:''
+        address:'',
+        companyname:'',
+        companycode:''
         
     
     }

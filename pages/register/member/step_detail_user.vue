@@ -3,7 +3,7 @@
     <v-container class="pt-0 pb-0">
       <v-row>
         <v-col cols="12">
-          <div class="mt-7 text-primary text-title text-center">สมัครสมาชิก</div>
+          <div class="mt-4 text-primary text-title text-center">สมัครสมาชิก</div>
         </v-col>
         <v-col cols="12" class="pt-0 pb-0">
           <div class="text-center">
@@ -22,6 +22,24 @@
                 dense
                 disabled
               ></v-text-field>-->
+
+              <v-text-field
+                class="mt-2"
+                v-model="companycode"
+                name="companycode"
+                label="รหัสบริษัท"
+                dense
+                readonly
+              ></v-text-field>
+
+              <v-text-field
+                class="mt-2"
+                v-model="companyname"
+                name="companyname"
+                label="ชื่อบริษัท"
+                dense
+                readonly
+              ></v-text-field>
 
               <v-text-field
                 class="mt-2"
@@ -113,6 +131,8 @@ export default {
       firstname: this.getRegisterMember().firstname,
       lastname: this.getRegisterMember().lastname,
       address: this.getRegisterMember().address,
+      companycode: this.getRegisterMember().companycode,
+      companyname: this.getRegisterMember().companyname,
       profileImg: "",
       addressRules: [v1 => !!v1 || "กรุณาใส่บ้านเลขที่"],
       firstnameRules: [
@@ -151,7 +171,7 @@ export default {
         const response = await this.$axios.$post(
           "actionregistermember/regisert/member",
           {
-            m_company_id: process.env.company_id,
+            m_company_code: this.companycode,
             m_phonenumber: this.phonenumber,
             m_uuiduser: this.uuiduser,
             m_tokenuser: this.tokenuser
@@ -163,6 +183,14 @@ export default {
             this.$nuxt.$loading.finish();
             this.$router.push("/register/member/step_reg_success");
             break;
+
+          case "not_found_company":
+                this.dialog_status = true;
+                this.txt_dialog_title = "แจ้งเตือน";
+                this.txt_dialog_sub = "ไม่พบข้อมูลบริษัท";
+                this.$nuxt.$loading.finish();
+                break;
+
 
           case "update_false":
             this.dialog_status = true;

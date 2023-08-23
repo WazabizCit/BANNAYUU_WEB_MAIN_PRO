@@ -2,7 +2,7 @@
   <v-container>
     <div class="mb-5">
       <v-row align="center" justify="center">
-        <div class="text-primary text-title mt-10 mb-2">QRCode ผู้มาติดต่อ</div>
+        <div class="text-primary text-title mt-4 mb-2">QRCode ผู้มาติดต่อ</div>
       </v-row>
       <Qrcodeready />
       <v-row>

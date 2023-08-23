@@ -17,6 +17,8 @@ $ npm run start
 $ npm run generate
 ```
 
+ngrok http -region jp 8505
+
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
 
 

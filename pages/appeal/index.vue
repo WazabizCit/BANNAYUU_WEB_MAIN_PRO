@@ -3,7 +3,7 @@
     <v-container class="pt-0 pb-0">
       <v-row>
         <v-col cols="12">
-          <div class="mt-7 text-primary text-title text-center">ระบบร้องเรียน</div>
+          <div class="mt-4 text-primary text-title text-center">ระบบร้องเรียน</div>
         </v-col>
 
         <v-row v-if="!status_close_process" class="ml-5 mr-5 mt-5" align="center" justify="space-around">
@@ -268,7 +268,7 @@ export default {
       .init({
         liffId: process.env.liffid_appeal
       })
-      .then(() => {
+      .then(async() => {
         if (liff.isLoggedIn()) {
           liff.getProfile().then(profile => {
             this.uuiduser = profile.userId;

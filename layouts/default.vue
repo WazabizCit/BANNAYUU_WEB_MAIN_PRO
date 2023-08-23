@@ -2,6 +2,10 @@
   <div>
     <v-app  style="background-color:#e0e0e0; color:white">
      <!-- <Navbar v-if="this.$nuxt.$auth.loggedIn" /> -->
+     <div class="d-flex flex-row-reverse ">
+        <v-sheet class="ma-2 pa-2">V.1.0.0</v-sheet>
+      </div>
+      
       <nuxt></nuxt>
     </v-app>
   </div>

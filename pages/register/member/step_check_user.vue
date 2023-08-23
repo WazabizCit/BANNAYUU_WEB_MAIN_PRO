@@ -3,7 +3,7 @@
     <v-container class="pt-0 pb-0">
       <v-row>
         <v-col cols="12">
-          <div class="mt-7 text-primary text-title text-center">ตรวจสอบสิทธ์</div>
+          <div class="mt-4 text-primary text-title text-center">ตรวจสอบสิทธ์</div>
         </v-col>
         <v-col cols="12" class="pt-0 pb-0">
           <div class="text-center">
@@ -15,16 +15,15 @@
             <p class="text-center text-sub-title mb-0 text-primary">กรุณากรอกรายละเอียด</p>
             <div class="mt-8">
 
-              <!-- <v-text-field
-                class="mt-2"
-                v-model="form.uuiduser"
-                name="uuiduser"
-                label="UUID"
-                dense
-                disabled
-              ></v-text-field> -->
+              <v-text-field class="mt-2" v-model="form.uuiduser" name="uuiduser" label="UUID" dense
+                disabled></v-text-field>
 
-              <v-text-field class="mt-5" v-model="form.tokenuser" name="tokenuser" label="TOKEN" dense
+
+                <v-text-field class="mt-5" v-model="form.companycode" name="companycode" label="รหัสบริษัท" dense
+                :rules="companycodeRules"></v-text-field>
+
+
+              <v-text-field class="mt-2" v-model="form.tokenuser" name="tokenuser" label="TOKEN" dense
                 :rules="tokenRules"></v-text-field>
 
               <v-text-field class="mt-2" name="phonenumber" v-model="form.phonenumber" label="เบอร์มือถือ" type="text"
@@ -32,7 +31,8 @@
                 :rules="phonenumberRules" onkeypress="return event.charCode >= 48 && event.charCode <= 57"></v-text-field>
             </div>
 
-            <v-btn rounded color="primary" dark class="w-100 mt-4 my-btn" @click="check_data">ตรวจสอบ</v-btn>
+            <v-btn rounded :disabled="!isBtnsubmit" color="primary" class="w-100 mt-4 my-btn"
+              @click="check_data">ตรวจสอบ</v-btn>
 
             <div class="mt-5 w-100 text-orange text-center my-btn" @click="close_liff">ยกเลิกรายการ</div>
           </v-form>
@@ -51,19 +51,23 @@ import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
+      isBtnsubmit: false,
       valid: false,
       dialog_status: false,
       txt_dialog_title: "",
       txt_dialog_sub: "",
       form: {
-        phonenumber: "",
-        tokenuser: "",
+        companycode:"CIT007",
+        companyname:"",
+        phonenumber: "0693339995",
+        tokenuser: "HOMELINE0848277BBA9D",
         uuiduser: "",
         firstname: "",
         lastname: "",
         address: ""
       },
       tokenRules: [v1 => !!v1 || "กรุณาใส่ TOKEN"],
+      companycodeRules: [v1 => !!v1 || "กรุณาใส่รหัสบริษัท"],
       phonenumberRules: [
         v1 => !!v1 || "กรุณาใส่เบอร์มือถือ",
         v2 => v2.length >= 10 || "กรุณาใส่ตัวเลข 10 หลัก",
@@ -83,7 +87,7 @@ export default {
       if (this.form.uuiduser == '') {
 
         this.dialog_status = true;
-        this.txt_dialog_sub = "ระบบผิดพลาด";
+        this.txt_dialog_sub = "ระบบผิดพลาด UID";
         this.txt_dialog_title = "กรุณาทำรายการใหม่ภายหลัง";
         this.$nuxt.$loading.finish();
 
@@ -91,13 +95,15 @@ export default {
 
       } else {
 
+
+
         if (this.$refs.form.validate()) {
           this.$nuxt.$loading.start();
           try {
             const response = await this.$axios.$post(
               "actionregistermember/checktoken/member",
               {
-                m_company_id: process.env.company_id,
+                m_company_code: this.form.companycode,
                 m_phonenumber: this.form.phonenumber,
                 m_tokenuser: this.form.tokenuser,
                 m_uuiduser: this.form.uuiduser
@@ -121,10 +127,18 @@ export default {
                 this.$nuxt.$loading.finish();
                 break;
 
-              case "not_found":
+              case "not_found_user":
                 this.dialog_status = true;
                 this.txt_dialog_title = "แจ้งเตือน";
                 this.txt_dialog_sub = "ไม่พบข้อมูลลูกค้า";
+                this.$nuxt.$loading.finish();
+                break;
+
+
+                case "not_found_company":
+                this.dialog_status = true;
+                this.txt_dialog_title = "แจ้งเตือน";
+                this.txt_dialog_sub = "ไม่พบข้อมูลบริษัท";
                 this.$nuxt.$loading.finish();
                 break;
 
@@ -152,11 +166,15 @@ export default {
       this.dialog_status = obj.status_dialog;
     },
     setdata_user(obj) {
+
       this.form.phonenumber = obj.home_line_mobile_phone;
       this.form.tokenuser = obj.home_line_code;
       this.form.firstname = obj.home_line_first_name;
       this.form.lastname = obj.home_line_last_name;
       this.form.address = obj.home_address;
+      this.form.companyname = obj.company_name;
+      this.form.companycode = obj.company_code;
+      
       this.setRegisterMember(this.form);
     }
   },
@@ -174,6 +192,7 @@ export default {
           liff.getProfile().then(profile => {
             //this.profileImg = profile.pictureUrl;
             this.form.uuiduser = profile.userId;
+            this.isBtnsubmit = true
           });
         } else {
           liff.login();

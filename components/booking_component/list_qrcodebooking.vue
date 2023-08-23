@@ -128,7 +128,7 @@ export default {
       .init({
         liffId: process.env.liffid_booking_history
       })
-      .then(() => {
+      .then(async() => {
         if (liff.isLoggedIn()) {
           liff.getProfile().then(profile => {
             //this.profileImg = profile.pictureUrl;

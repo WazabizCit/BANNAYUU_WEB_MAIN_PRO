@@ -78,8 +78,8 @@ export default {
 
   axios: {
 
-    //baseURL: "https://83d4-2001-fb1-3d-94fa-7dd2-6e68-be45-4a6b.jp.ngrok.io/"
-    baseURL: "http://127.0.0.1:38500/"
+    baseURL: "https://2b99-49-229-35-114.ngrok-free.app/"
+    //baseURL: "http://localhost:38500/"
     //baseURL: "https://uat.bannayuu.com/apiline/"
     //baseURL: "https://cit.bannayuu.com/apiline/"
     

@@ -3,7 +3,7 @@
     <v-container class="pt-0 pb-0">
       <v-row>
         <v-col cols="12">
-          <div class="mt-7 text-primary text-title text-center">ระบบฉุกเฉิน</div>
+          <div class="mt-4 text-primary text-title text-center">ระบบฉุกเฉิน</div>
         </v-col>
 
         <v-row
@@ -260,7 +260,7 @@ export default {
       .init({
         liffId: process.env.liffid_sos
       })
-      .then(() => {
+      .then(async() => {
         if (liff.isLoggedIn()) {
           liff.getProfile().then(profile => {
             this.uuiduser = profile.userId;

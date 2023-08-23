@@ -2,7 +2,7 @@
   <v-container class="pt-0 pb-0">
     <v-row>
       <v-col cols="12">
-        <div class="mt-7 mb-2 text-primary text-title text-center">รายการบิล</div>
+        <div class="mt-4 mb-2 text-primary text-title text-center">รายการบิล</div>
       </v-col>
     </v-row>
 
@@ -86,7 +86,7 @@ export default {
       .init({
         liffId: process.env.liffid_payment
       })
-      .then(() => {
+      .then(async() => {
         if (liff.isLoggedIn()) {
           liff.getProfile().then(profile => {
             this.uuiduser = profile.userId;
