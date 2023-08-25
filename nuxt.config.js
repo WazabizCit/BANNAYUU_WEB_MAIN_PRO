@@ -6,7 +6,7 @@ export default {
   mode: 'spa',
   target: 'server',
   server: {
-    port: 8505, // default: 4000
+    port: 50501, // default: 4000
     host: '0.0.0.0' // default: localhost
   },
   router: {
@@ -78,7 +78,7 @@ export default {
 
   axios: {
 
-    baseURL: "https://2b99-49-229-35-114.ngrok-free.app/"
+    baseURL: "https://b600-49-229-35-114.ngrok-free.app/"
     //baseURL: "http://localhost:38500/"
     //baseURL: "https://uat.bannayuu.com/apiline/"
     //baseURL: "https://cit.bannayuu.com/apiline/"

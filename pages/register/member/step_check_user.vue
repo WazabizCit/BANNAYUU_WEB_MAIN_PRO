@@ -19,7 +19,7 @@
                 disabled></v-text-field>
 
 
-                <v-text-field class="mt-5" v-model="form.companycode" name="companycode" label="รหัสบริษัท" dense
+              <v-text-field class="mt-5" v-model="form.companycode" name="companycode" label="รหัสบริษัท" dense
                 :rules="companycodeRules"></v-text-field>
 
 
@@ -39,6 +39,10 @@
         </v-col>
       </v-row>
 
+      <v-overlay :value="overlay">
+        <v-progress-circular indeterminate size="64"></v-progress-circular>
+      </v-overlay>
+
       <Dialog_popup :dialog_status="dialog_status" :txt_dialog_sub="txt_dialog_sub" :txt_dialog_title="txt_dialog_title"
         @closeDialog="closeDialog" />
     </v-container>
@@ -56,11 +60,12 @@ export default {
       dialog_status: false,
       txt_dialog_title: "",
       txt_dialog_sub: "",
+      overlay: false,
       form: {
-        companycode:"CIT007",
-        companyname:"",
-        phonenumber: "0693339995",
-        tokenuser: "HOMELINE0848277BBA9D",
+        companycode: "66B001",
+        companyname: "",
+        phonenumber: "0888888888",
+        tokenuser: "HOMELINE041004493E1ED6",
         uuiduser: "",
         firstname: "",
         lastname: "",
@@ -135,7 +140,7 @@ export default {
                 break;
 
 
-                case "not_found_company":
+              case "not_found_company":
                 this.dialog_status = true;
                 this.txt_dialog_title = "แจ้งเตือน";
                 this.txt_dialog_sub = "ไม่พบข้อมูลบริษัท";
@@ -174,7 +179,7 @@ export default {
       this.form.address = obj.home_address;
       this.form.companyname = obj.company_name;
       this.form.companycode = obj.company_code;
-      
+
       this.setRegisterMember(this.form);
     }
   },
@@ -182,9 +187,8 @@ export default {
     Dialog_popup
   },
   mounted() {
-    //  this.form.uuiduser  = "U6641b60472a13e043d22d70915fd046d";
-
-
+ 
+    this.overlay = true
 
     liff.init({ liffId: process.env.liffid_member })
       .then(async () => {
@@ -193,6 +197,8 @@ export default {
             //this.profileImg = profile.pictureUrl;
             this.form.uuiduser = profile.userId;
             this.isBtnsubmit = true
+            this.overlay =  false
+
           });
         } else {
           liff.login();
@@ -200,7 +206,7 @@ export default {
       })
       .catch((err) => {
         console.log(err);
-      })
+        })
 
 
   }
