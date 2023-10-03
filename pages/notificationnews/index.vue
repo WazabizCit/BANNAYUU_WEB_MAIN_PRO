@@ -86,7 +86,7 @@ export default {
       window.open(link, "_blank");
     },
     async requestData() {
-      this.overlay = true;
+    
       this.items_list = [];
       this.$axios
         .$post("actionnotification/get_list_notification", {
@@ -112,7 +112,7 @@ export default {
     }
   },
   mounted() {
-  
+    this.overlay = true;
 
     liff
       .init({

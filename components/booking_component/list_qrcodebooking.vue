@@ -91,7 +91,7 @@ export default {
       );
     },
     async requestData(uuiduser) {
-      this.overlay = true;
+     
       this.$axios
         .$post("booking/history", {
           m_uuiduser:  uuiduser,
@@ -123,6 +123,8 @@ export default {
     }
   },
   mounted() {
+
+    this.overlay = true;
 
     liff
       .init({

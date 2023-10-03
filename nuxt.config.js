@@ -2,8 +2,8 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
-  mode: 'spa',
+  ssr: true,
+
   target: 'server',
   server: {
     port: 50501, // default: 4000
@@ -78,7 +78,7 @@ export default {
 
   axios: {
 
-    baseURL: "https://b600-49-229-35-114.ngrok-free.app/"
+    baseURL: "https://api_bannayuu_pro_demo.bannayuu.com/"
     //baseURL: "http://localhost:38500/"
     //baseURL: "https://uat.bannayuu.com/apiline/"
     //baseURL: "https://cit.bannayuu.com/apiline/"

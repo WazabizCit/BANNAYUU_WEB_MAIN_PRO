@@ -195,7 +195,7 @@ export default {
       this.obj_select = item;
     },
     async requestData() {
-      this.overlay = true;
+ 
       this.items_list = [];
       this.$axios
         .$post("actionbox/get_listbox", {
@@ -223,6 +223,8 @@ export default {
     }
   },
   mounted() {
+
+    this.overlay = true;
   
     liff
       .init({

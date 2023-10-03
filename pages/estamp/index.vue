@@ -106,7 +106,7 @@ export default {
       this.obj_select = obj;
     },
     async requestData() {
-      this.overlay = true;
+      
       this.items_list = [];
       this.$axios
         .$post("actionestamp/get_list_estamp", {
@@ -139,7 +139,8 @@ export default {
   },
   mounted() {
   
-
+    this.overlay = true;
+    
     liff
       .init({
         liffId: process.env.liffid_estamp

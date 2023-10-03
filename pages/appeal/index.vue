@@ -234,7 +234,7 @@ export default {
     },
 
     async requestData() {
-      this.overlay = true;
+   
       this.items_list = [];
       this.$axios
         .$post("actionappeal/get_listappeal", {
@@ -263,6 +263,8 @@ export default {
     }
   },
   mounted() {
+
+    this.overlay = true;
 
     liff
       .init({

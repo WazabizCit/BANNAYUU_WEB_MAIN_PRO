@@ -137,7 +137,7 @@ export default {
       this.dialog_qrcode = false;
     },
     async requestData() {
-      this.overlay = true;
+    
 
       this.$axios
         .$post("actionprofile/get_profile", {
@@ -218,7 +218,7 @@ export default {
     }
   },
   mounted() {
-
+    this.overlay = true;
 
     liff
       .init({

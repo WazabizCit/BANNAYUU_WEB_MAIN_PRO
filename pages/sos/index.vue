@@ -219,6 +219,8 @@ export default {
               break;
           }
         } catch (error) {
+
+          this.overlay = false;
           this.dialog_status = true;
           this.txt_dialog_title = "แจ้งเตือน";
           this.txt_dialog_sub = "ระบบผิดพลาด";
@@ -227,7 +229,7 @@ export default {
     },
 
     async requestData() {
-      this.overlay = true;
+      
       this.items_list = [];
       this.$axios
         .$post("actionsos/get_listsos", {
@@ -256,6 +258,9 @@ export default {
     }
   },
   mounted() {
+    
+    this.overlay = true;
+
     liff
       .init({
         liffId: process.env.liffid_sos
